@@ -1,7 +1,7 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://bhldn-production-weblinc.netdna-ssl.com/media/W1siZiIsIjIwMjIvMDIvMTYvMTEvMzMvMzkvNDMzOTNjZjYtYjYzYi00YTQ3LThjZTItZjczNzNjOWZmYzExLzAyMTYyMl9CSExETl9IUEdfc2xpY2UwMV9MU19BQDJ4ICgxKS5qcGciXV0/021622_BHLDN_HPG_slice01_LS_A%402x%20%281%29.jpg",
+      img: "https://i.ibb.co/DG69bQ4/2.png",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "f5fafd",
@@ -27,16 +27,19 @@ export const sliderItems = [
       id: 1,
       img: "https://images.pexels.com/photos/5886041/pexels-photo-5886041.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
       title: "SHIRT STYLE!",
+      cat:"coat"
     },
     {
       id: 2,
       img: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
       title: "LOUNGEWEAR LOVE",
+      cat:"pant"
     },
     {
       id: 3,
       img: "https://images.pexels.com/photos/5480696/pexels-photo-5480696.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
       title: "LIGHT JACKETS",
+      cat:"shirt"
     },
   ];
 
@@ -64,6 +67,14 @@ export const sliderItems = [
     {
       id:6,
       img:"https://d3o2e4jr3mxnm3.cloudfront.net/Rocket-Vintage-Chill-Cap_66374_1_lg.png",
+    },
+    {
+      id:7,
+      img:"https://www.vintageindustries.nl/download_front/qympzk1762/2217_Arrow_Jacket_Forest.png",
+    },
+    {
+      id:8,
+      img:"https://www.pngarts.com/files/3/Women-Jacket-PNG-High-Quality-Image.png",
     },
     {
       id:7,

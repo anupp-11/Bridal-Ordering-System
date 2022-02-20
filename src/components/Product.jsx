@@ -4,6 +4,7 @@ import {
   ShoppingCartOutlined,
 } from "@material-ui/icons";
 import styled from "styled-components";
+import {Link} from "react-router-dom";
 
 const Info = styled.div`
   opacity: 0;
@@ -21,12 +22,15 @@ const Info = styled.div`
   cursor: pointer;
 `;
 
+
+
 const Container = styled.div`
   flex: 1;
   margin: 5px;
   min-width: 280px;
   height: 350px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #f5fbfd;
@@ -46,43 +50,56 @@ const Circle = styled.div`
 `;
 
 const Image = styled.img`
-  height: 75%;
+  height: 60%;
   z-index: 2;
 `;
 
 const Icon = styled.div`
-  width: 40px;
+  width: 180px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 5px;
   background-color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 10px;
+  padding:5px;
   transition: all 0.5s ease;
   &:hover {
     background-color: #e9f5f5;
     transform: scale(1.1);
   }
 `;
+const Title = styled.h1`
+  font-weight: 400;
+  font-size: 20px;
+`;
+
+const Desc = styled.p`
+  margin: 20px 0px;
+`;
+
+const Price = styled.span`
+  font-weight: 100;
+  font-size: 20px;
+`;
+
 
 const Product = ({ item }) => {
   return (
+    <Link to={`/product/${item.id}`} underline="none" style={{ textDecoration: 'none',color: 'black'}}>
     <Container>
-      <Circle />
-      <Image src={item.img} />
-      <Info>
+        <Image src={item.img} />
+        <Title>Denim Jumpsuit</Title>
+        <Price>$ 20</Price>
         <Icon>
-          <ShoppingCartOutlined />
+          <div style={{display:'flex',flexDirection:'row'}}>
+            <div style={{marginRight:10}}>Add To Cart</div>
+            <ShoppingCartOutlined />
+          </div>       
         </Icon>
-        <Icon>
-          <SearchOutlined />
-        </Icon>
-        <Icon>
-          <FavoriteBorderOutlined />
-        </Icon>
-      </Info>
     </Container>
+    </Link>
   );
 };
 

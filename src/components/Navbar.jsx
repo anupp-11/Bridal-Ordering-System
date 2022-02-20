@@ -3,6 +3,8 @@ import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import {Link} from "react-router-dom";
+
 
 const Container = styled.div`
   height: 60px;
@@ -81,13 +83,20 @@ const Navbar = () => {
           <Logo>BRIDE.</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
-          <MenuItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined />
-            </Badge>
-          </MenuItem>
+          <Link to="/register" style={{ textDecoration: 'none' }}>
+            <MenuItem>REGISTER</MenuItem>
+          </Link>
+          
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <MenuItem>SIGN IN</MenuItem>
+          </Link>
+          <Link to="/cart">
+            <MenuItem>
+              <Badge badgeContent={4} color="primary">
+                <ShoppingCartOutlined />
+              </Badge>
+            </MenuItem>
+          </Link>
         </Right>
       </Wrapper>
     </Container>
