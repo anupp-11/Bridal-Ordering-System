@@ -1,21 +1,21 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://image.shutterstock.com/shutterstock/photos/1305327406/display_1500/stock-photo-asian-girl-s-portrait-in-e-commerce-and-parcel-service-concept-1305327406.jpg",
+      img: "https://images8.alphnpm acoders.com/411/411132.jpg",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "f5fafd",
     },
     {
       id: 2,
-      img: "https://i.ibb.co/DG69bQ4/2.png",
+      img: "https://s2.best-wallpaper.net/wallpaper/2560x1440/1706/Asian-girl-bride-wedding-flowers_2560x1440.jpg",
       title: "AUTUMN COLLECTION",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "fcf1ed",
     },
     {
       id: 3,
-      img: "https://i.ibb.co/cXFnLLV/3.png",
+      img: "https://s1.1zoom.me/b6051/346/Bouquets_Brown_haired_Bride_Dress_534533_2560x1440.jpg",
       title: "LOUNGEWEAR LOVE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "fbf0f4",
