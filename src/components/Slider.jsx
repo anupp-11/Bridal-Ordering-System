@@ -48,12 +48,12 @@ const Slide = styled.div`
 `;
 
 const ImgContainer = styled.div`
-  height: 100%;
-  flex: 1;
+  width: 100%;
+ 
 `;
 
 const Image = styled.img`
-  height: 80%;
+  width: 100%;
 `;
 
 const InfoContainer = styled.div`
@@ -100,11 +100,11 @@ const Slider = () => {
             <ImgContainer>
               <Image src={item.img} />
             </ImgContainer>
-            <InfoContainer>
+            {/* <InfoContainer>
               <Title>{item.title}</Title>
               <Desc>{item.desc}</Desc>
               <Button>SHOW NOW</Button>
-            </InfoContainer>
+            </InfoContainer> */}
           </Slide>
         ))}
       </Wrapper>
