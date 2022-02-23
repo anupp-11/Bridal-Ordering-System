@@ -3,9 +3,8 @@ import { Search, ShoppingCartOutlined } from "@material-ui/icons";
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import {Link} from "react-router-dom";
-
-
+import { Link } from "react-router-dom";
+import Logo from '../assets/Logo.png'
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -49,10 +48,10 @@ const Center = styled.div`
   text-align: center;
 `;
 
-const Logo = styled.h1`
-  font-weight: bold;
-  ${mobile({ fontSize: "24px" })}
-`;
+// const Logo = styled.h1`
+//   font-weight: bold;
+//   ${mobile({ fontSize: "24px" })}
+// `;
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -80,13 +79,17 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>BRIDE.</Logo>
+          <div>
+            <img height="40px" src = {Logo}/>
+          </div>
+          {/* <Logos/> */}
+          {/* <Logo>BRIDE.</Logo> */}
         </Center>
         <Right>
           <Link to="/register" style={{ textDecoration: 'none' }}>
             <MenuItem>REGISTER</MenuItem>
           </Link>
-          
+
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <MenuItem>SIGN IN</MenuItem>
           </Link>
