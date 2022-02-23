@@ -9,6 +9,7 @@ import {
 } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import Logo from '../assets/Logo.png'
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const Left = styled.div`
   padding: 20px;
 `;
 
-const Logo = styled.h1``;
+// const Logo = styled.h1``;
 
 const Desc = styled.p`
   margin: 20px 0px;
@@ -88,7 +89,9 @@ const Footer = () => {
   return (
     <Container>
       <Left>
-        <Logo>BRIDE.</Logo>
+        <div>
+          <img height="40px" src={Logo} />
+        </div>
         <Desc>
           There are many variations of passages of Lorem Ipsum available, but
           the majority have suffered alteration in some form, by injected
@@ -110,7 +113,7 @@ const Footer = () => {
         </SocialContainer>
       </Left>
       <Center>
-        <Title>Useful Links</Title>
+        {/* <Title>Useful Links</Title>
         <List>
           <ListItem>Home</ListItem>
           <ListItem>Cart</ListItem>
@@ -122,20 +125,20 @@ const Footer = () => {
           <ListItem>Wishlist</ListItem>
           <ListItem>Wishlist</ListItem>
           <ListItem>Terms</ListItem>
-        </List>
+        </List> */}
       </Center>
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{marginRight:"10px"}}/> 622 Dixie Path , South Tobinchester 98336
+          <Room style={{ marginRight: "10px" }} /> Kumaripati , Lalitpur, Nepal 44700
         </ContactItem>
         <ContactItem>
-          <Phone style={{marginRight:"10px"}}/> +1 234 56 78
+          <Phone style={{ marginRight: "10px" }} /> +977 9812345678
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{marginRight:"10px"}} /> contact@lama.dev
+          <MailOutline style={{ marginRight: "10px" }} /> contact@bride.com
         </ContactItem>
-        <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" />
+        {/* <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" /> */}
       </Right>
     </Container>
   );
