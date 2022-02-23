@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import {mobile} from "../responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
   background: linear-gradient(
       rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
+      rgba(255, 0, 0, 0.5)
     ),
-    url("https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    url("https://media.istockphoto.com/photos/engagement-ring-ceremony-indian-hindu-male-putting-ring-on-brides-picture-id1141906797?b=1&k=20&m=1141906797&s=170667a&w=0&h=nvMQMw5x5RYhp94jII9yklkImDpTCUKG8zkcm1cDFro=")
       center;
   background-size: cover;
   display: flex;
@@ -50,7 +51,7 @@ const Button = styled.button`
   margin-bottom: 10px;
 `;
 
-const Link = styled.a`
+const Link1 = styled.a`
   margin: 5px 0px;
   font-size: 12px;
   text-decoration: underline;
@@ -66,8 +67,10 @@ const Login = () => {
           <Input placeholder="username" />
           <Input placeholder="password" />
           <Button>LOGIN</Button>
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
+          <Link1>DO NOT YOU REMEMBER THE PASSWORD?</Link1>
+          <Link to={'/register'}>
+          <Link1>CREATE A NEW ACCOUNT</Link1>
+          </Link>
         </Form>
       </Wrapper>
     </Container>
