@@ -80,7 +80,9 @@ const Navbar = () => {
         </Left>
         <Center>
           <div>
+            <Link to={"/"}>
             <img height="40px" src = {Logo}/>
+            </Link>
           </div>
           {/* <Logos/> */}
           {/* <Logo>BRIDE.</Logo> */}

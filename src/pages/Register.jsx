@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {signUpService} from "../services/authServices";
 import SimpleReactValidator from "simple-react-validator";
 
@@ -61,7 +61,7 @@ const Button = styled.button`
 const Button1 = styled.button`
   width: 80%;
   border: none;
-  margin-left: 125px;
+  margin: 0px 0px 0px 80px;
   padding: 15px 20px;
   background-color: teal;
   color: white;
@@ -69,28 +69,62 @@ const Button1 = styled.button`
 `;
 
 const Register = () => {
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+  const [inputValues, setInputValue] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-    const validator = new SimpleReactValidator();
+  const [validation, setValidation] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInputValue({ ...inputValues, [name]: value });
+  }
+  const checkValidation = () => {
+    let errors = validation;
+
+    if (!inputValues.name.trim()) {
+      errors.name = "First name is required";
+    } else {
+      errors.name = "";
+    } 
+
+    const emailCond =
+      "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
+    if (!inputValues.email.trim()) {
+      errors.email = "Email is required";
+    } else if (!inputValues.email.match(emailCond)) {
+      errors.email = "Please ingress a valid email address";
+    } else {
+      errors.email = "";
+    }
+
+    const password = inputValues.password;
+    if (!password) {
+      errors.password = "password is required";
+    } else if (password.length < 8) {
+      errors.password = "Password must be longer than 6 characters";
+    } else{
+      errors.password = "";
+    }
+
+    setValidation(errors);
+  }
+
+  useEffect(() => {
+    checkValidation();
+  }, [inputValues]);
 
     const registerService = async () => {
-      debugger;
-        const registerInfo = {
-          name : name,
-          email : email,
-          password: password,
-        }
         debugger;
         try{
-          if(validator.allValid()){
-            const response = await signUpService(registerInfo);
-        }else{
-          debugger;
-          validator.showMessages();
-        }
-          debugger;
+            const response = await signUpService(inputValues);
+            debugger;
         }catch{
 
         }
@@ -102,23 +136,25 @@ const Register = () => {
         <Form>
           <Input
             name="name"
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => handleChange(e)}
             placeholder="Name"
             type="text"
-            value={name}/>
-            {validator.message('name', name, 'required|min:3',{className: 'text-danger' })}
+            value={inputValues.name}/>
+            {/* {validation.name && <p>{validation.name}</p>} */}
           <Input
             name="email"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => handleChange(e)}
             placeholder="email"
             type="email"
-            value={email} />
+            value={inputValues.email} />
+            {/* {validation.email && <p>{validation.email}</p>} */}
           <Input
             name="password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handleChange(e)}
             placeholder="password"
             type="password"
-            value={password} />
+            value={inputValues.password} />
+            {/* {validation.password && <p>{validation.password}</p>} */}
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
