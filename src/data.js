@@ -1,7 +1,7 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://images8.alphnpm acoders.com/411/411132.jpg",
+      img: "https://www.brides.com/thmb/6jrzfkyiTwEhLJGotKAa4miq1CE=/2590x2590/smart/filters:no_upscale()/MJ112720tandon-Friday-1092-6ad8260df26d4f1c94728f86484f49f4.jpg",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "f5fafd",
