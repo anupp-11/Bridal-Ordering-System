@@ -121,6 +121,8 @@ const Register = () => {
   }, [inputValues]);
 
     const registerService = async () => {
+      
+    // checkValidation(inputValues);
         debugger;
         try{
             const response = await signUpService(inputValues);
@@ -140,21 +142,21 @@ const Register = () => {
             placeholder="Name"
             type="text"
             value={inputValues.name}/>
-            {/* {validation.name && <p>{validation.name}</p>} */}
+            {validation.name && <p>{validation.name}</p>}
           <Input
             name="email"
             onChange={(e) => handleChange(e)}
             placeholder="email"
             type="email"
             value={inputValues.email} />
-            {/* {validation.email && <p>{validation.email}</p>} */}
+            {validation.email && <p>{validation.email}</p>}
           <Input
             name="password"
             onChange={(e) => handleChange(e)}
             placeholder="password"
             type="password"
             value={inputValues.password} />
-            {/* {validation.password && <p>{validation.password}</p>} */}
+            {validation.password && <p>{validation.password}</p>}
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
