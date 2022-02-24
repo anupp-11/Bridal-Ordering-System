@@ -1,14 +1,14 @@
 export const sliderItems = [
     {
       id: 1,
-      img: "https://www.brides.com/thmb/6jrzfkyiTwEhLJGotKAa4miq1CE=/2590x2590/smart/filters:no_upscale()/MJ112720tandon-Friday-1092-6ad8260df26d4f1c94728f86484f49f4.jpg",
+      img: "https://c.pxhere.com/images/3c/21/ff26a2866692054a5a20e523a52e-1594802.jpg!d",
       title: "SUMMER SALE",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "f5fafd",
     },
     {
       id: 2,
-      img: "https://s2.best-wallpaper.net/wallpaper/2560x1440/1706/Asian-girl-bride-wedding-flowers_2560x1440.jpg",
+      img: "https://pbs.twimg.com/media/E5D8FkoUYAEuvi_?format=jpg&name=4096x4096",
       title: "AUTUMN COLLECTION",
       desc: "DON'T COMPROMISE ON STYLE! GET FLAT 30% OFF FOR NEW ARRIVALS.",
       bg: "fcf1ed",
