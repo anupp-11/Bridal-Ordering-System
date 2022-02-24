@@ -38,8 +38,8 @@ const ProductList = () => {
   return (
     <Container>
       <Navbar />
-      <Title>Dresses</Title>
-      <FilterContainer>
+      <Title>Products</Title>
+      {/* <FilterContainer>
         <Filter>
           <FilterText>Filter Products:</FilterText>
           <Select>
@@ -72,7 +72,7 @@ const ProductList = () => {
             <Option>Price (desc)</Option>
           </Select>
         </Filter>
-      </FilterContainer>
+      </FilterContainer> */}
       <Products />
      
       <Footer />

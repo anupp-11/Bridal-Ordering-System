@@ -45,7 +45,9 @@ const Input = styled.input`
 
 const Center = styled.div`
   flex: 1;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 `;
 
 // const Logo = styled.h1`
@@ -66,28 +68,51 @@ const MenuItem = styled.div`
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
+const MenuItems = styled.div`
+  font-size: 16px;
+  font-weight:bold;
+  cursor: pointer;
+  margin-left: 20px;
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+`;
 
 const Navbar = () => {
   return (
     <Container>
       <Wrapper>
         <Left>
+          <div>
+            <Link to={"/"}>
+              <img height="40px" src={Logo} />
+            </Link>
+          </div>
+
+        </Left>
+        <Center>
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <MenuItems>HOME</MenuItems>
+          </Link>
+
+          <Link to="/products" style={{ textDecoration: 'none' }}>
+            <MenuItems>PRODUCT & PACKAGES</MenuItems>
+          </Link>
+
+          <Link to="" style={{ textDecoration: 'none' }}>
+            <MenuItems>ABOUT US</MenuItems>
+          </Link>
+
+          <Link to="" style={{ textDecoration: 'none' }}>
+            <MenuItems>CONTACT US</MenuItems>
+          </Link>
+
+          
+        </Center>
+        <Right>
           <Language>EN</Language>
           <SearchContainer>
             <Input placeholder="Search" />
             <Search style={{ color: "gray", fontSize: 16 }} />
           </SearchContainer>
-        </Left>
-        <Center>
-          <div>
-            <Link to={"/"}>
-            <img height="40px" src = {Logo}/>
-            </Link>
-          </div>
-          {/* <Logos/> */}
-          {/* <Logo>BRIDE.</Logo> */}
-        </Center>
-        <Right>
           <Link to="/register" style={{ textDecoration: 'none' }}>
             <MenuItem>REGISTER</MenuItem>
           </Link>
