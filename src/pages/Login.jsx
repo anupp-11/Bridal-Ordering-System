@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import {mobile} from "../responsive";
+import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import {loginService} from "../services/authServices"
+import { loginService } from "../services/authServices";
 
 const Container = styled.div`
   width: 100vw;
@@ -33,14 +33,20 @@ const Title = styled.h1`
 
 const Form = styled.form`
   display: flex;
+  border-radius: 5px;
+background-color: #f2f2f2;
+padding: 20px;
   flex-direction: column;
 `;
 
 const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 10px 0;
-  padding: 10px;
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
 `;
 
 const Button = styled.button`
@@ -61,24 +67,25 @@ const Link1 = styled.a`
 `;
 
 const Login = () => {
+  const [inputValues, setInputValue] = useState({
+    username: "",
+    password: "",
+  });
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInputValue({ ...inputValues, [name]: value });
+  }
 
   const userlogin = async () => {
     debugger;
-      const registerInfo = {
-        username : username,
-        password: password,
-      }
-      debugger;
-      try{
-        
-          const response = await loginService(registerInfo);
-          debugger;
-      }catch{
+    try {
 
-      }
+      const response = await loginService(inputValues);
+      debugger;
+    } catch {
+
+    }
   }
 
   return (
@@ -86,24 +93,24 @@ const Login = () => {
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
-        <Input
+          <Input
             name="username"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => handleChange(e)}
             placeholder="Username"
             type="text"
-            value={username}/>
+            value={inputValues.username} />
           <Input
-            name="name"
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            onChange={(e) => handleChange(e)}
             placeholder="Password"
             type="password"
-            value={password}/>
+            value={inputValues.password} />
           <Button
-          type="submit" 
-          onClick={userlogin}>LOGIN</Button>
-          <Link1>DO NOT YOU REMEMBER THE PASSWORD?</Link1>
+            type="submit"
+            onClick={userlogin}>LOGIN</Button>
+          {/* <Link1>DO NOT YOU REMEMBER THE PASSWORD?</Link1> */}
           <Link to={'/register'}>
-          <Link1>CREATE A NEW ACCOUNT</Link1>
+            <Link1>CREATE A NEW ACCOUNT</Link1>
           </Link>
         </Form>
       </Wrapper>
