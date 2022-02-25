@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import {signUpService} from "../services/authServices";
+import { signUpService } from "../services/authServices";
 import SimpleReactValidator from "simple-react-validator";
 
 const Container = styled.div`
@@ -33,15 +33,19 @@ const Title = styled.h1`
 `;
 
 const Form = styled.form`
-  display: flex;
-  flex-wrap: wrap;
+border-radius: 5px;
+background-color: #f2f2f2;
+padding: 20px;
 `;
 
 const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 20px 10px 0px 0px;
-  padding: 10px;
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
 `;
 
 const Agreement = styled.span`
@@ -50,7 +54,6 @@ const Agreement = styled.span`
 `;
 
 const Button = styled.button`
-  width: 40%;
   border: none;
   padding: 15px 20px;
   background-color: teal;
@@ -59,14 +62,35 @@ const Button = styled.button`
 `;
 
 const Button1 = styled.button`
-  width: 80%;
   border: none;
-  margin: 0px 0px 0px 80px;
+  margin: 0px 0px 0px 0px;
   padding: 15px 20px;
   background-color: teal;
   color: white;
   cursor: pointer;
 `;
+
+const Mystyle = styled.div`
+  width: 100%;
+  display:flex; 
+  margin: 10px 20px 0px 0px;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: space-between;
+`
+
+const InputStyle = styled.div`
+  width: 100%;
+  display:flex; 
+  margin: 10px 20px 0px 0px;
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: space-between;
+`
+
+const Danger = styled.div`
+  color: red;
+`
 
 const Register = () => {
   const [inputValues, setInputValue] = useState({
@@ -89,10 +113,10 @@ const Register = () => {
     let errors = validation;
 
     if (!inputValues.name.trim()) {
-      errors.name = "First name is required";
+      errors.name = "Name is required";
     } else {
       errors.name = "";
-    } 
+    }
 
     const emailCond =
       "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$/";
@@ -109,7 +133,7 @@ const Register = () => {
       errors.password = "password is required";
     } else if (password.length < 8) {
       errors.password = "Password must be longer than 6 characters";
-    } else{
+    } else {
       errors.password = "";
     }
 
@@ -120,51 +144,88 @@ const Register = () => {
     checkValidation();
   }, [inputValues]);
 
-    const registerService = async () => {
-        debugger;
-        try{
-            const response = await signUpService(inputValues);
-            debugger;
-        }catch{
+  const registerService = async () => {
+    debugger;
+    try {
+      // if(validation.name && validation.email && validation.password === ""){
+      const response = await signUpService(inputValues);
+      // } else {
+      // }
+      debugger;
+    } catch {
 
-        }
     }
+  }
   return (
     <Container>
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          <Input
-            name="name"
-            onChange={(e) => handleChange(e)}
-            placeholder="Name"
-            type="text"
-            value={inputValues.name}/>
-            {/* {validation.name && <p>{validation.name}</p>} */}
-          <Input
-            name="email"
-            onChange={(e) => handleChange(e)}
-            placeholder="email"
-            type="email"
-            value={inputValues.email} />
-            {/* {validation.email && <p>{validation.email}</p>} */}
-          <Input
-            name="password"
-            onChange={(e) => handleChange(e)}
-            placeholder="password"
-            type="password"
-            value={inputValues.password} />
-            {/* {validation.password && <p>{validation.password}</p>} */}
+          {/* <div>
+            <form action="/action_page.php">
+              <label for="fname">First Name</label>
+              <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+                <label for="lname">Last Name</label>
+                <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+                  <label for="country">Country</label>
+                  <select id="country" name="country">
+                    <option value="australia">Australia</option>
+                    <option value="canada">Canada</option>
+                    <option value="usa">USA</option>
+                  </select>
+
+                  <input type="submit" value="Submit">
+                  </form>
+                </div> */}
+          {/* <InputStyle> */}
+          <div>
+            <Input
+              name="name"
+              onChange={(e) => handleChange(e)}
+              placeholder="Name"
+              type="text"
+              value={inputValues.name} />
+            <Danger>
+              {validation.name && <p>{validation.name}</p>}
+            </Danger>
+          </div>
+          <div>
+            <Input
+              name="email"
+              onChange={(e) => handleChange(e)}
+              placeholder="email"
+              type="email"
+              value={inputValues.email} />
+            <Danger>
+              {validation.email && <p>{validation.email}</p>}
+            </Danger>
+          </div>
+          {/* </InputStyle> */}
+          <div>
+            <Input
+              name="password"
+              onChange={(e) => handleChange(e)}
+              placeholder="password"
+              type="password"
+              value={inputValues.password} />
+            <Danger>
+              {validation.password && <p>{validation.password}</p>}
+            </Danger>
+          </div>
           <Agreement>
             By creating an account, I consent to the processing of my personal
             data in accordance with the <b>PRIVACY POLICY</b>
           </Agreement>
-          <Button 
-            type="submit" 
-            onClick={registerService}>CREATE</Button>
-          <Link to={'/login'}>
-            <Button1>ALREADY HAVE AN ACCOUNT</Button1>
-          </Link>
+          <Mystyle>
+            <Button
+              type="submit"
+              onClick={registerService}>CREATE</Button>
+            <Link to={'/login'}>
+              <Button1>ALREADY HAVE AN ACCOUNT</Button1>
+            </Link>
+          </Mystyle>
         </Form>
       </Wrapper>
     </Container>
