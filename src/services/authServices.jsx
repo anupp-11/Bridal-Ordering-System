@@ -1,29 +1,27 @@
+import { USER_LOGIN, USER_REGISTER } from "../constants/api";
+
+
 export async function loginService(item) {
 
-    // debugger;
-    // const url = (login);
-
     const requestOptions = {
-        method: 'post',
-        headers: new Headers({ 'content-type': 'application/json' }),
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify(item)
     }
-    const response = "Login Successfull"
-    // await fetch(url, requestOptions);
+    const response = await fetch(USER_LOGIN, requestOptions);
     return response;
 }
 
 export async function signUpService(item) {
 
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(item)
+    }
     debugger;
-
-    const response = "SignUp Successful"
-    // await fetch(register,
-        // {
-        //     method: 'post',
-        //     headers: new Headers({ 'content-type': 'application/json' }),
-        //     body: JSON.stringify(item)
-
-        // });
+    const response = await fetch(USER_REGISTER, requestOptions);
+    debugger;
     return response;
+
 }
