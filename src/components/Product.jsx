@@ -86,12 +86,13 @@ const Price = styled.span`
 
 
 const Product = ({ item }) => {
+  debugger;
   return (
     <Link to={`/product/${item.id}`} underline="none" style={{ textDecoration: 'none',color: 'black'}}>
     <Container>
-        <Image src={item.img} />
-        <Title>Denim Jumpsuit</Title>
-        <Price>$ 20</Price>
+        <Image src={item.images[0].img} />
+        <Title>{item.name}</Title>
+        <Price>Rs. {item.price}</Price>
         <Icon>
           <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{marginRight:10}}>Add To Cart</div>

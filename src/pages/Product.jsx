@@ -3,13 +3,16 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
+import React from 'react';
+import { withRouter } from "react-router";
+import { getProductById } from '../services/products.service';
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobile({ padding: "10px", flexDirection:"column" })}
+  ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
 
 const ImgContainer = styled.div`
@@ -112,56 +115,80 @@ const Button = styled.button`
       background-color: #f8f4f4;
   }
 `;
+class Product extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      isProcessing: true,
+      product: ''
+    };
+  }
 
-const Product = () => {
-  return (
-    <Container>
-      <Navbar />
-      <Wrapper>
-        <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
-        </ImgContainer>
-        <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
-          </Desc>
-          <Price>$ 20</Price>
-          <FilterContainer>
-            <Filter>
-              <FilterTitle>Color</FilterTitle>
-              <FilterColor color="black" />
-              <FilterColor color="darkblue" />
-              <FilterColor color="gray" />
-            </Filter>
-            <Filter>
-              <FilterTitle>Size</FilterTitle>
-              <FilterSize>
-                <FilterSizeOption>XS</FilterSizeOption>
-                <FilterSizeOption>S</FilterSizeOption>
-                <FilterSizeOption>M</FilterSizeOption>
-                <FilterSizeOption>L</FilterSizeOption>
-                <FilterSizeOption>XL</FilterSizeOption>
-              </FilterSize>
-            </Filter>
-          </FilterContainer>
-          <AddContainer>
-            <AmountContainer>
-              <Remove />
-              <Amount>1</Amount>
-              <Add />
-            </AmountContainer>
-            <Button>ADD TO CART</Button>
-          </AddContainer>
-        </InfoContainer>
-      </Wrapper>
-      <Footer />
-    </Container>
-  );
+
+  componentDidMount = async () => {
+    debugger;
+    const id = this.props.match.params.id;
+    const product = await getProductById(id);
+    this.setState({ product: product });
+    this.setState({ isProcessing: false });
+    debugger;
+  };
+
+
+  render() {
+    // if (this.state.isProcessing) {
+    //   <div>
+    //     Is Processing
+    //     </div>
+    // } else {
+      return (
+        <Container>
+          <Navbar />
+          <Wrapper>
+            <ImgContainer>
+              {/* <Image src={this.state.product.images[0].img} /> */}
+              {/* <Image src={this.state.product.images[0].img} /> */}
+            </ImgContainer>
+            <InfoContainer>
+              <Title>{this.state.product.name}</Title>
+              <Desc>
+                {this.state.product.description}
+              </Desc>
+              <Price>{this.state.product.price}</Price>
+              <FilterContainer>
+                <Filter>
+                  <FilterTitle>Color</FilterTitle>
+                  <FilterColor color="black" />
+                  <FilterColor color="darkblue" />
+                  <FilterColor color="gray" />
+                </Filter>
+                <Filter>
+                  <FilterTitle>Size</FilterTitle>
+                  <FilterSize>
+                    <FilterSizeOption>XS</FilterSizeOption>
+                    <FilterSizeOption>S</FilterSizeOption>
+                    <FilterSizeOption>M</FilterSizeOption>
+                    <FilterSizeOption>L</FilterSizeOption>
+                    <FilterSizeOption>XL</FilterSizeOption>
+                  </FilterSize>
+                </Filter>
+              </FilterContainer>
+              <AddContainer>
+                <AmountContainer>
+                  <Remove />
+                  <Amount>1</Amount>
+                  <Add />
+                </AmountContainer>
+                <Button>ADD TO CART</Button>
+              </AddContainer>
+            </InfoContainer>
+          </Wrapper>
+          <Footer />
+        </Container>
+      );
+    }
+
+  //}
 };
-
-export default Product;
+export default withRouter(Product);
