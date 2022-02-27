@@ -3,6 +3,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Cart from "./pages/Cart";
 import ProductList from "./pages/ProductList";
+import AboutUs from "./pages/AboutUs";
+import Contactus from "./pages/ContactUs";
 import {
   BrowserRouter as Router,
   Switch,
@@ -37,6 +39,12 @@ const App = () => {
         </Route>
         <Route path="/cart">
           <Cart />
+        </Route>
+        <Route path="/aboutus">
+          <AboutUs />
+        </Route>
+        <Route path="/contactus">
+          <Contactus />
         </Route>
       </Switch>
     </Router>

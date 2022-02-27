@@ -79,15 +79,6 @@ const Mystyle = styled.div`
   justify-content: space-between;
 `
 
-const InputStyle = styled.div`
-  width: 100%;
-  display:flex; 
-  margin: 10px 20px 0px 0px;
-  flex-direction: row; 
-  align-items: center; 
-  justify-content: space-between;
-`
-
 const Danger = styled.div`
   color: red;
 `
