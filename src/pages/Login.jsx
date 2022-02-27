@@ -3,6 +3,8 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { loginService } from "../services/authServices";
+import { useHistory } from "react-router-dom";
+
 
 const Container = styled.div`
   width: 100vw;
@@ -31,7 +33,7 @@ const Title = styled.h1`
   font-weight: 300;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
   display: flex;
   border-radius: 5px;
 background-color: #f2f2f2;
@@ -66,11 +68,18 @@ const Link1 = styled.a`
   cursor: pointer;
 `;
 
+const Danger = styled.div`
+  color: red;
+`
+
 const Login = () => {
+  let history = useHistory();
   const [inputValues, setInputValue] = useState({
-    username: "",
+    email: "",
     password: "",
   });
+
+  const [validation, setValidation] = useState('');
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -80,8 +89,18 @@ const Login = () => {
   const userlogin = async () => {
     debugger;
     try {
-
       const response = await loginService(inputValues);
+      const responseData = await response.json();
+      if(response.ok){
+        if(responseData.isError === false){
+          debugger;
+          alert('Login Successful')
+          history.push("/")
+        }else{
+          setValidation(responseData.message)
+        }
+      }
+
       debugger;
     } catch {
 
@@ -94,17 +113,20 @@ const Login = () => {
         <Title>SIGN IN</Title>
         <Form>
           <Input
-            name="username"
+            name="email"
             onChange={(e) => handleChange(e)}
-            placeholder="Username"
-            type="text"
-            value={inputValues.username} />
+            placeholder="Email"
+            type="email"
+            value={inputValues.email} />
           <Input
             name="password"
             onChange={(e) => handleChange(e)}
             placeholder="Password"
             type="password"
             value={inputValues.password} />
+            <Danger>
+              {validation && <p>{validation}</p>}
+            </Danger>
           <Button
             type="submit"
             onClick={userlogin}>LOGIN</Button>

@@ -97,11 +97,11 @@ const Navbar = () => {
             <MenuItems>PRODUCT & PACKAGES</MenuItems>
           </Link>
 
-          <Link to="" style={{ textDecoration: 'none' }}>
+          <Link to="/aboutus" style={{ textDecoration: 'none' }}>
             <MenuItems>ABOUT US</MenuItems>
           </Link>
 
-          <Link to="" style={{ textDecoration: 'none' }}>
+          <Link to="/contactus" style={{ textDecoration: 'none' }}>
             <MenuItems>CONTACT US</MenuItems>
           </Link>
 

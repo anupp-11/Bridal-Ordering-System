@@ -3,7 +3,7 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { signUpService } from "../services/authServices";
-import SimpleReactValidator from "simple-react-validator";
+import { useHistory } from "react-router-dom";
 
 const Container = styled.div`
   width: 100vw;
@@ -32,7 +32,7 @@ const Title = styled.h1`
   font-weight: 300;
 `;
 
-const Form = styled.form`
+const Form = styled.div`
 border-radius: 5px;
 background-color: #f2f2f2;
 padding: 20px;
@@ -79,20 +79,12 @@ const Mystyle = styled.div`
   justify-content: space-between;
 `
 
-const InputStyle = styled.div`
-  width: 100%;
-  display:flex; 
-  margin: 10px 20px 0px 0px;
-  flex-direction: row; 
-  align-items: center; 
-  justify-content: space-between;
-`
-
 const Danger = styled.div`
   color: red;
 `
 
 const Register = () => {
+  let history = useHistory();
   const [inputValues, setInputValue] = useState({
     name: "",
     email: "",
@@ -140,15 +132,35 @@ const Register = () => {
     setValidation(errors);
   }
 
-  useEffect(() => {
-    checkValidation();
-  }, [inputValues]);
+  // useEffect(() => {
+  //   checkValidation();
+  // }, [inputValues]);
 
   const registerService = async () => {
     debugger;
     try {
       // if(validation.name && validation.email && validation.password === ""){
       const response = await signUpService(inputValues);
+      debugger;
+      const responseData = await response.json();
+      if(response.ok){
+        if(responseData.isError === false){
+          debugger;
+          alert('SignUp Successful')
+          setInputValue({
+            name: '',
+            email: '',
+            password: '',
+          })
+          history.push("/login")
+
+        }else{
+          setValidation({
+            email: responseData.message
+          })
+          // alert(responseData.message)
+        }
+      }
       // } else {
       // }
       debugger;
@@ -161,25 +173,6 @@ const Register = () => {
       <Wrapper>
         <Title>CREATE AN ACCOUNT</Title>
         <Form>
-          {/* <div>
-            <form action="/action_page.php">
-              <label for="fname">First Name</label>
-              <input type="text" id="fname" name="firstname" placeholder="Your name..">
-
-                <label for="lname">Last Name</label>
-                <input type="text" id="lname" name="lastname" placeholder="Your last name..">
-
-                  <label for="country">Country</label>
-                  <select id="country" name="country">
-                    <option value="australia">Australia</option>
-                    <option value="canada">Canada</option>
-                    <option value="usa">USA</option>
-                  </select>
-
-                  <input type="submit" value="Submit">
-                  </form>
-                </div> */}
-          {/* <InputStyle> */}
           <div>
             <Input
               name="name"
