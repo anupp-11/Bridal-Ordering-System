@@ -1,10 +1,11 @@
 import { Badge } from "@material-ui/core";
 import { Search, ShoppingCartOutlined } from "@material-ui/icons";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import Logo from '../assets/Logo.png'
+import Logo from '../assets/Logo.png';
+import {connect} from 'react-redux';
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -76,7 +77,8 @@ const MenuItems = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
-const Navbar = () => {
+const Navbar = (props) => {
+  debugger;
   return (
     <Container>
       <Wrapper>
@@ -122,7 +124,7 @@ const Navbar = () => {
           </Link>
           <Link to="/cart">
             <MenuItem>
-              <Badge badgeContent={4} color="primary">
+              <Badge badgeContent={props.cartItems.length} color="primary">
                 <ShoppingCartOutlined />
               </Badge>
             </MenuItem>
@@ -132,5 +134,10 @@ const Navbar = () => {
     </Container>
   );
 };
+const mapStateToProps = (state) => {
+  return{
+    cartItems: state
+  }
+};
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);

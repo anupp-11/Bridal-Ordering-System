@@ -4,6 +4,7 @@ import { getProducts } from '../services/products.service';
 import Product from "./Product";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { connect } from 'react-redux';
 
 const Container = styled.div`
     padding: 20px;
@@ -12,7 +13,7 @@ const Container = styled.div`
     justify-content: space-between;
 `;
 
-export default class Products extends React.Component {
+class Products extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +40,7 @@ export default class Products extends React.Component {
       return (
         <Container>
           {this.state.data.map((item) => (
-            <Product item={item} key={item.id} />
+            <Product item={item} key={item.id}  />
           ))}
         </Container>
       );
@@ -47,5 +48,7 @@ export default class Products extends React.Component {
   }
 
 };
+
+export default Products;
 
 

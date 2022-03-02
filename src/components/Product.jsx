@@ -5,6 +5,7 @@ import {
 } from "@material-ui/icons";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {connect} from 'react-redux';
 
 const Info = styled.div`
   opacity: 0;
@@ -85,23 +86,36 @@ const Price = styled.span`
 `;
 
 
-const Product = ({ item }) => {
+const Product = ({ item },props) => {
+
+  const handleClick = (id)=>{
+    props.addToCart(id);
+    }
+
   debugger;
   return (
-    <Link to={`/product/${item.id}`} underline="none" style={{ textDecoration: 'none',color: 'black'}}>
+    
     <Container>
+      {/* <Link to={`/product/${item.id}`} underline="none" style={{ textDecoration: 'none',color: 'black'}}> */}
         <Image src={item.images[0].img} />
         <Title>{item.name}</Title>
         <Price>Rs. {item.price}</Price>
+        {/* </Link> */}
         <Icon>
           <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{marginRight:10}}>Add To Cart</div>
-            <ShoppingCartOutlined />
+            <ShoppingCartOutlined onClick={()=>{handleClick(item.id)}} />
           </div>       
         </Icon>
     </Container>
-    </Link>
+   
   );
 };
 
-export default Product;
+const mapDispatchToProps = (dispatch) => {
+  return {
+      addItemToCart: (product) => dispatch({ type: 'ADD_TO_CART', payload: product })
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Product);
