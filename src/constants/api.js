@@ -10,6 +10,9 @@ export const DELETE_PRODUCT = "/Product/:id";
 export const LOGIN = "/Authentication/login";
 export const REGISTER = "/Authentication/register";
 
+//Carousel
+export const GET_CAROUSEL = "/Carousel/get";
+
 
 //Products
 export const GET_PRODUCTS_URL = `${BASE_URL}${GET_PRODUCTS}`;
@@ -20,3 +23,6 @@ export const DELETE_PRODUCT_URL = `${BASE_URL}${DELETE_PRODUCT}`;
 //Authentication
 export const USER_LOGIN = `${BASE_URL}${LOGIN}`;
 export const USER_REGISTER = `${BASE_URL}${REGISTER}`;
+
+//Carousel
+export const CAROUSEL = `${BASE_URL}${GET_CAROUSEL}`

@@ -1,8 +1,10 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@material-ui/icons";
-import { useState } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { sliderItems } from "../data";
 import { mobile } from "../responsive";
+import { getCarousel } from "../services/carouselService";
 
 const Container = styled.div`
   width: 100%;
@@ -79,26 +81,51 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-const Slider = () => {
-  const [slideIndex, setSlideIndex] = useState(0);
-  const handleClick = (direction) => {
+export default class Slider extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      slideIndex: 0,
+      carousels: [],
+    };
+  }
+
+  Carousel = async () => {
+    debugger;
+    const response = await getCarousel();
+    this.setState({
+      carousels: response,
+    })
+
+    const data = this.state.carousels;
+    debugger;
+  }
+
+  handleClick = (direction) => {
     if (direction === "left") {
-      setSlideIndex(slideIndex > 0 ? slideIndex - 1 : 2);
+      this.setState({
+        slideIndex : this.state.slideIndex > 0 ? this.state.slideIndex -1 : 3
+      })
     } else {
-      setSlideIndex(slideIndex < 2 ? slideIndex + 1 : 0);
+      this.setState({
+        slideIndex : this.state.slideIndex < 3  ? this.state.slideIndex +1 : 0
+      })
     }
   };
 
+  render(){
+    this.Carousel();
+
   return (
     <Container>
-      <Arrow direction="left" onClick={() => handleClick("left")}>
+      <Arrow direction="left" onClick={() => this.handleClick("left")}>
         <ArrowLeftOutlined />
       </Arrow>
-      <Wrapper slideIndex={slideIndex}>
-        {sliderItems.map((item) => (
+      <Wrapper slideIndex={this.state.slideIndex}>
+        {this.state.carousels.map((item) => (
           <Slide bg={item.bg} key={item.id}>
             <ImgContainer>
-              <Image src={item.img} />
+              <Image src={item.image.img} />
             </ImgContainer>
             {/* <InfoContainer>
               <Title>{item.title}</Title>
@@ -108,11 +135,11 @@ const Slider = () => {
           </Slide>
         ))}
       </Wrapper>
-      <Arrow direction="right" onClick={() => handleClick("right")}>
+      <Arrow direction="right" onClick={() => this.handleClick("right")}>
         <ArrowRightOutlined />
       </Arrow>
     </Container>
   );
+}
 };
 
-export default Slider;
