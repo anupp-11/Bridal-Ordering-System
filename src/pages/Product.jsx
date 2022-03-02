@@ -6,6 +6,8 @@ import { mobile } from "../responsive";
 import React from 'react';
 import { withRouter } from "react-router";
 import { getProductById } from '../services/products.service';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Container = styled.div``;
 
@@ -24,6 +26,13 @@ const Image = styled.img`
   height: 90vh;
   object-fit: cover;
   ${mobile({ height: "40vh" })}
+`;
+const ThumbnailImage = styled.img`
+  
+  height: 15vh;
+  object-fit: cover;
+  padding:10px;
+  ${mobile({ height: "3vh" })}
 `;
 
 const InfoContainer = styled.div`
@@ -110,7 +119,6 @@ const Button = styled.button`
   background-color: white;
   cursor: pointer;
   font-weight: 500;
-
   &:hover{
       background-color: #f8f4f4;
   }
@@ -121,34 +129,61 @@ class Product extends React.Component {
     this.state = {
       data: [],
       isProcessing: true,
-      product: ''
+      product: '',
+      index: 0,
+      count: 0,
     };
+    this.setIndex = this.setIndex.bind(this);
+    this.handleIncrement = this.handleIncrement.bind(this);
+    this.handleDecrement = this.handleDecrement.bind(this);
+
   }
 
 
   componentDidMount = async () => {
-    debugger;
     const id = this.props.match.params.id;
     const product = await getProductById(id);
     this.setState({ product: product });
     this.setState({ isProcessing: false });
+
+  };
+  setIndex(e) {
+    e.stopPropagation();
+    this.setState({ index: parseInt(e.target.id) });
+  }
+  handleIncrement(e) {
+    e.stopPropagation();
+    var c = this.state.count + 1;
+    this.setState({ count: c })
+  };
+
+  handleDecrement(e){
     debugger;
+    e.stopPropagation();
+    if(this.state.count>0){
+      var c = this.state.count - 1;
+      this.setState({ count: c })
+    }
+    
   };
 
 
   render() {
-    // if (this.state.isProcessing) {
-    //   <div>
-    //     Is Processing
-    //     </div>
-    // } else {
+    if (this.state.isProcessing) {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
+          <CircularProgress />
+        </Box>
+      )
+    } else {
       return (
         <Container>
           <Navbar />
           <Wrapper>
             <ImgContainer>
-              {/* <Image src={this.state.product.images[0].img} /> */}
-              {/* <Image src={this.state.product.images[0].img} /> */}
+
+              <Image src={this.state.product.images[this.state.index].img} />
+              {this.state.product.images.map((item, index) => <ThumbnailImage id={index} src={item.img} onClick={this.setIndex} />)}
             </ImgContainer>
             <InfoContainer>
               <Title>{this.state.product.name}</Title>
@@ -156,7 +191,7 @@ class Product extends React.Component {
                 {this.state.product.description}
               </Desc>
               <Price>{this.state.product.price}</Price>
-              <FilterContainer>
+              {/* <FilterContainer>
                 <Filter>
                   <FilterTitle>Color</FilterTitle>
                   <FilterColor color="black" />
@@ -173,12 +208,12 @@ class Product extends React.Component {
                     <FilterSizeOption>XL</FilterSizeOption>
                   </FilterSize>
                 </Filter>
-              </FilterContainer>
+              </FilterContainer> */}
               <AddContainer>
                 <AmountContainer>
-                  <Remove />
-                  <Amount>1</Amount>
-                  <Add />
+                  <Remove onClick={this.handleDecrement}/>
+                  <Amount>{this.state.count}</Amount>
+                  <Add onClick={this.handleIncrement}/>
                 </AmountContainer>
                 <Button>ADD TO CART</Button>
               </AddContainer>
@@ -189,6 +224,6 @@ class Product extends React.Component {
       );
     }
 
-  //}
+  }
 };
 export default withRouter(Product);
