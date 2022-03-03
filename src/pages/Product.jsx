@@ -8,6 +8,9 @@ import { withRouter } from "react-router";
 import { getProductById } from '../services/products.service';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { addProduct } from "../redux/cartRedux";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 const Container = styled.div``;
 
@@ -123,107 +126,91 @@ const Button = styled.button`
       background-color: #f8f4f4;
   }
 `;
-class Product extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-      isProcessing: true,
-      product: '',
-      index: 0,
-      count: 0,
-    };
-    this.setIndex = this.setIndex.bind(this);
-    this.handleIncrement = this.handleIncrement.bind(this);
-    this.handleDecrement = this.handleDecrement.bind(this);
-
-  }
+const Product =(props)=> {
 
 
-  componentDidMount = async () => {
-    const id = this.props.match.params.id;
-    const product = await getProductById(id);
-    this.setState({ product: product });
-    this.setState({ isProcessing: false });
+  const [data, setData] = React.useState([]);
+  const [isProcessing, setIsProcessing] = React.useState(true);
+  const [product, setProduct] = React.useState({});
+  const [index, setIndex] = React.useState(0);
+  const [quantity, setQuantity] = React.useState(0);
+  const dispatch = useDispatch();
 
-  };
-  setIndex(e) {
-    e.stopPropagation();
-    this.setState({ index: parseInt(e.target.id) });
-  }
-  handleIncrement(e) {
-    e.stopPropagation();
-    var c = this.state.count + 1;
-    this.setState({ count: c })
-  };
-
-  handleDecrement(e){
-    debugger;
-    e.stopPropagation();
-    if(this.state.count>0){
-      var c = this.state.count - 1;
-      this.setState({ count: c })
-    }
-    
-  };
-
-
-  render() {
-    if (this.state.isProcessing) {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
-          <CircularProgress />
-        </Box>
-      )
-    } else {
-      return (
-        <Container>
-          <Navbar />
-          <Wrapper>
-            <ImgContainer>
-
-              <Image src={this.state.product.images[this.state.index].img} />
-              {this.state.product.images.map((item, index) => <ThumbnailImage id={index} src={item.img} onClick={this.setIndex} />)}
-            </ImgContainer>
-            <InfoContainer>
-              <Title>{this.state.product.name}</Title>
-              <Desc>
-                {this.state.product.description}
-              </Desc>
-              <Price>{this.state.product.price}</Price>
-              {/* <FilterContainer>
-                <Filter>
-                  <FilterTitle>Color</FilterTitle>
-                  <FilterColor color="black" />
-                  <FilterColor color="darkblue" />
-                  <FilterColor color="gray" />
-                </Filter>
-                <Filter>
-                  <FilterTitle>Size</FilterTitle>
-                  <FilterSize>
-                    <FilterSizeOption>XS</FilterSizeOption>
-                    <FilterSizeOption>S</FilterSizeOption>
-                    <FilterSizeOption>M</FilterSizeOption>
-                    <FilterSizeOption>L</FilterSizeOption>
-                    <FilterSizeOption>XL</FilterSizeOption>
-                  </FilterSize>
-                </Filter>
-              </FilterContainer> */}
-              <AddContainer>
-                <AmountContainer>
-                  <Remove onClick={this.handleDecrement}/>
-                  <Amount>{this.state.count}</Amount>
-                  <Add onClick={this.handleIncrement}/>
-                </AmountContainer>
-                <Button>ADD TO CART</Button>
-              </AddContainer>
-            </InfoContainer>
-          </Wrapper>
-          <Footer />
-        </Container>
-      );
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const id = props.match.params.id;
+      const product = await getProductById(id);
+      setProduct(product);
+      setIsProcessing(false);
     }
 
+    fetchMyAPI()
+  }, []);
+
+
+function setIndexx(e) {
+  e.stopPropagation();
+  setIndex(e.target.id);
+}
+function handleIncrement(e) {
+  e.stopPropagation();
+  var c = quantity + 1;
+  setQuantity(c);
+};
+
+function handleDecrement(e){
+  debugger;
+  e.stopPropagation();
+  if (quantity > 0) {
+    var c = quantity - 1;
+    setQuantity(c);
   }
+
+};
+
+function handleOnClick(){
+  dispatch(addProduct({product,quantity }));
+}
+
+
+
+  if (isProcessing) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
+        <CircularProgress />
+      </Box>
+    )
+  } else {
+    return (
+      <Container>
+        <Navbar />
+        <Wrapper>
+          <ImgContainer>
+
+            <Image src={product.images[index].img} />
+            {product.images.map((item, index) => <ThumbnailImage id={index} src={item.img} onClick={setIndexx} />)}
+          </ImgContainer>
+          <InfoContainer>
+            <Title>{product.name}</Title>
+            <Desc>
+              {product.description}
+            </Desc>
+            <Price>{product.price}</Price>
+            <AddContainer>
+              <AmountContainer>
+                <Remove onClick={handleDecrement} />
+                <Amount>{quantity}</Amount>
+                <Add onClick={handleIncrement} />
+              </AmountContainer>
+              <Button onClick={handleOnClick}>ADD TO CART</Button>
+            </AddContainer>
+          </InfoContainer>
+        </Wrapper>
+        <Footer />
+      </Container>
+    );
+  }
+
+
 };
 export default withRouter(Product);
