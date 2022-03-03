@@ -93,12 +93,12 @@ const Product = ({ item }) => {
         <Image src={item.images[0].img} />
         <Title>{item.name}</Title>
         <Price>Rs. {item.price}</Price>
-        <Icon>
+        {/* <Icon>
           <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{marginRight:10}}>Add To Cart</div>
             <ShoppingCartOutlined />
           </div>       
-        </Icon>
+        </Icon> */}
     </Container>
     </Link>
   );
