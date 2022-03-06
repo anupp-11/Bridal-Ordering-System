@@ -5,26 +5,26 @@ import { useState, useEffect } from "react";
 import { signUpService } from "../services/authServices";
 import {getOrder} from "../services/orderServices"
 import { useHistory } from "react-router-dom";
+import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import { useSelector } from "react-redux";
+
+
 
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.5),
-    rgba(255, 0, 0, 0.5)
-    ),
-    url("https://c4.wallpaperflare.com/wallpaper/189/32/933/gorgeous-bride-in-a-beautiful-dress-evening-wallpaper-preview.jpg")
-      center;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  
 `;
 
 const Wrapper = styled.div`
-  width: 40%;
+  width: 100%;
   padding: 20px;
   background-color: white;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
   ${mobile({ width: "75%" })}
 `;
 
@@ -37,6 +37,7 @@ const Form = styled.div`
 border-radius: 5px;
 background-color: #f2f2f2;
 padding: 20px;
+width:40%
 `;
 
 const Input = styled.input`
@@ -85,6 +86,9 @@ const Danger = styled.div`
 `
 
 const Checkout = () => {
+
+  const products = useSelector((state) => state.cart);
+  console.log("Products:",products);
   let history = useHistory();
   const [inputValues, setInputValue] = useState({
         id: "",
@@ -95,6 +99,8 @@ const Checkout = () => {
         country: ""
   });
 
+
+
   function handleChange(event) {
     const { name, value } = event.target;
     setInputValue({ ...inputValues, [name]: value });
@@ -103,8 +109,9 @@ const Checkout = () => {
   const checkoutService = async () => {
     debugger;
     try {
+
       // if(validation.name && validation.email && validation.password === ""){
-      const response = await getOrder(inputValues);
+      const response = await getOrder(inputValues,products.products);
       debugger;
       const responseData = await response.json();
       if(response.ok){
@@ -133,7 +140,9 @@ const Checkout = () => {
     }
   }
   return (
+    
     <Container>
+      <Navbar/>
       <Wrapper>
         <Title>PLACE ORDER</Title>
         <Form>
@@ -184,6 +193,7 @@ const Checkout = () => {
           </Mystyle>
         </Form>
       </Wrapper>
+      <Footer />
     </Container>
   );
 };
