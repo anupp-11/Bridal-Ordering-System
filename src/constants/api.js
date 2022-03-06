@@ -6,6 +6,11 @@ export const ADD_PRODUCTS = "/Product/add";
 export const GET_PRODUCT_BY_ID = "/Product/:id";
 export const DELETE_PRODUCT = "/Product/:id";
 
+//package
+export const GET_PACKAGES = "/Package/get";
+export const GET_PACKAGE_BY_ID = "/Package/get/:id";
+
+
 //Authentication
 export const LOGIN = "/Authentication/login";
 export const REGISTER = "/Authentication/register";
@@ -22,6 +27,10 @@ export const GET_PRODUCTS_URL = `${BASE_URL}${GET_PRODUCTS}`;
 export const ADD_PRODUCTS_URL = `${BASE_URL}${ADD_PRODUCTS}`;
 export const GET_PRODUCT_BY_ID_URL = `${BASE_URL}${GET_PRODUCTS}`;
 export const DELETE_PRODUCT_URL = `${BASE_URL}${DELETE_PRODUCT}`;
+
+//packages
+export const GET_PACKAGES_URL = `${BASE_URL}${GET_PACKAGES}`;
+export const GET_PACKAGE_BY_ID_URL = `${BASE_URL}${GET_PACKAGE_BY_ID}`;
 
 //Authentication
 export const USER_LOGIN = `${BASE_URL}${LOGIN}`;

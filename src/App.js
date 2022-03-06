@@ -6,6 +6,7 @@ import ProductList from "./pages/ProductList";
 import AboutUs from "./pages/AboutUs";
 import Contactus from "./pages/ContactUs";
 import Checkout from "./components/Checkout";
+import Package from "./pages/Package";
 import {
   BrowserRouter as Router,
   Switch,
@@ -37,6 +38,9 @@ const App = () => {
         </Route>
         <Route path="/product/:id">
           <Product />
+        </Route>
+        <Route path="/package/:id">
+          <Package />
         </Route>
         <Route path="/cart">
           <Cart />
