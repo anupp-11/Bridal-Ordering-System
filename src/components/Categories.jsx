@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { categories } from "../data";
 import { mobile } from "../responsive";
 import CategoryItem from "./CategoryItem";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getPackages } from "../services/package.service";
 
 const Container = styled.div`
   display: flex;
@@ -12,13 +15,31 @@ const Container = styled.div`
 `;
 
 const Categories = () => {
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(true);
+  useEffect(() => {
+    async function fetchMyAPI() {
+      let response = await getPackages();
+      setCategoriesList(response.result);
+      debugger;
+      setIsProcessing(false);
+    }
+
+    fetchMyAPI()
+  }, [])
+  if (isProcessing) {
+    return <div>Loading...</div>
+  }
+  else {
+
+  
   return (
     <Container>
-      {categories.map((item) => (
+      {categoriesList.map((item) => (
         <CategoryItem item={item} key={item.id} />
       ))}
     </Container>
-  );
+  );}
 };
 
 export default Categories;
