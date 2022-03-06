@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { sliderItems } from "../data";
 import { mobile } from "../responsive";
 import { getCarousel } from "../services/carouselService";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 const Container = styled.div`
   width: 100%;
@@ -87,18 +89,21 @@ export default class Slider extends React.Component {
     this.state = {
       slideIndex: 0,
       carousels: [],
+      isProcessing: true,
     };
   }
 
-  Carousel = async () => {
-    debugger;
-    const response = await getCarousel();
-    this.setState({
-      carousels: response,
-    })
-
-    const data = this.state.carousels;
-    debugger;
+  componentDidMount = async () =>{
+      debugger;
+      const response = await getCarousel();
+      this.setState({
+        carousels: response,
+        isProcessing: false
+      })
+  
+      const data = this.state.carousels;
+      debugger;
+    
   }
 
   handleClick = (direction) => {
@@ -114,7 +119,14 @@ export default class Slider extends React.Component {
   };
 
   render(){
-    this.Carousel();
+
+    if (this.state.isProcessing) {
+      return (
+        <Box sx={{ display: 'flex', alignItems:'center',justifyContent:'center',height:'40vh'  }}>
+          <CircularProgress />
+        </Box>
+      );
+    } else {
 
   return (
     <Container>
@@ -140,6 +152,5 @@ export default class Slider extends React.Component {
       </Arrow>
     </Container>
   );
-}
-};
+}}};
 

@@ -13,6 +13,9 @@ export const REGISTER = "/Authentication/register";
 //Carousel
 export const GET_CAROUSEL = "/Carousel/get";
 
+//Order
+export const ADD_ORDER = "/Order/add"
+
 
 //Products
 export const GET_PRODUCTS_URL = `${BASE_URL}${GET_PRODUCTS}`;
@@ -26,3 +29,7 @@ export const USER_REGISTER = `${BASE_URL}${REGISTER}`;
 
 //Carousel
 export const CAROUSEL = `${BASE_URL}${GET_CAROUSEL}`
+
+//Order
+
+export const ADD_ORDER_URL = `${BASE_URL}${ADD_ORDER}`

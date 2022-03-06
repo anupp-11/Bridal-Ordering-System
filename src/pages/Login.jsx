@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import { loginService } from "../services/authServices";
 import { useHistory } from "react-router-dom";
+import MuiAlert from '@mui/material/Alert';
+import { IconButton } from "@material-ui/core";
+import { Button } from "@mui/material";
+import { Snackbar } from "@mui/material";
+import { Close } from "@material-ui/icons";
 
 
 const Container = styled.div`
@@ -51,7 +56,7 @@ border-radius: 4px;
 box-sizing: border-box;
 `;
 
-const Button = styled.button`
+const Button1 = styled.button`
   width: 40%;
   border: none;
   padding: 15px 20px;
@@ -72,12 +77,21 @@ const Danger = styled.div`
   color: red;
 `
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 const Login = () => {
   let history = useHistory();
   const [inputValues, setInputValue] = useState({
     email: "",
     password: "",
   });
+
+  const [open, setOpen] = React.useState(false);
+  const [vertical, setVertical] = React.useState('top');
+  const [horizontal, setHorizontal] = React.useState('center');
+  const [message, setMessage] = React.useState(false);
 
   const [validation, setValidation] = useState('');
 
@@ -86,17 +100,48 @@ const Login = () => {
     setInputValue({ ...inputValues, [name]: value });
   }
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <React.Fragment>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const route = () => {
+    history.push("/")
+  }
+
   const userlogin = async () => {
     debugger;
     try {
+      debugger;
       const response = await loginService(inputValues);
       const responseData = await response.json();
-      if(response.ok){
-        if(responseData.isError === false){
-          debugger;
-          alert('Login Successful')
-          history.push("/")
-        }else{
+      if (response.ok) {
+        if (responseData.isError === false) {
+
+          localStorage.setItem('LoginId', JSON.stringify(responseData.result.id))
+          setOpen(true);
+          setMessage(response.message);
+          setTimeout(route,2000)
+        } else {
           setValidation(responseData.message)
         }
       }
@@ -109,6 +154,16 @@ const Login = () => {
 
   return (
     <Container>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        key={vertical + horizontal}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Logged In Successfully!
+        </Alert>
+      </Snackbar>
       <Wrapper>
         <Title>SIGN IN</Title>
         <Form>
@@ -124,12 +179,12 @@ const Login = () => {
             placeholder="Password"
             type="password"
             value={inputValues.password} />
-            <Danger>
-              {validation && <p>{validation}</p>}
-            </Danger>
-          <Button
+          <Danger>
+            {validation && <p>{validation}</p>}
+          </Danger>
+          <Button1
             type="submit"
-            onClick={userlogin}>LOGIN</Button>
+            onClick={userlogin}>LOGIN</Button1>
           {/* <Link1>DO NOT YOU REMEMBER THE PASSWORD?</Link1> */}
           <Link to={'/register'}>
             <Link1>CREATE A NEW ACCOUNT</Link1>
