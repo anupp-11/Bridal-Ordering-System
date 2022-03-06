@@ -133,7 +133,7 @@ const Product =(props)=> {
   const [isProcessing, setIsProcessing] = React.useState(true);
   const [product, setProduct] = React.useState({});
   const [index, setIndex] = React.useState(0);
-  const [quantity, setQuantity] = React.useState(0);
+  const [quantity, setQuantity] = React.useState(1);
   const dispatch = useDispatch();
 
   useEffect(() => {
