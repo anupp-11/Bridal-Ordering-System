@@ -25,22 +25,6 @@ const cartSlice = createSlice({
             debugger
             state.total += product.product.price * product.quantity;
             debugger;
-
-        
-            // const c = state;
-            // const currentProd = JSON.parse(JSON.stringify(state.products));
-            // debugger;
-            // if(state.products.find(product => product.id == action.payload.product.id)){
-            //     debugger;
-            //     state.products.find(product => product.id == action.payload.product.id).quantity += action.payload.product.quantity;
-            // }else{
-            //     debugger;
-            //     state.quantity += 1;
-            //     state.products.push(action.payload);
-            // }
-            // debugger;
-            // state.total += product.product.price * product.quantity;
-
         }
     }
 });

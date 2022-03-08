@@ -109,11 +109,11 @@ export default class Slider extends React.Component {
   handleClick = (direction) => {
     if (direction === "left") {
       this.setState({
-        slideIndex : this.state.slideIndex > 0 ? this.state.slideIndex -1 : 3
+        slideIndex : this.state.slideIndex > 0 ? this.state.slideIndex -1 : this.state.carousels.length-1
       })
     } else {
       this.setState({
-        slideIndex : this.state.slideIndex < 3  ? this.state.slideIndex +1 : 0
+        slideIndex : this.state.slideIndex < this.state.carousels.length-1  ? this.state.slideIndex +1 : 0
       })
     }
   };

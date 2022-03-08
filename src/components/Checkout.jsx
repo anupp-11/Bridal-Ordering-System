@@ -91,7 +91,6 @@ const Checkout = () => {
   console.log("Products:",products);
   let history = useHistory();
   const [inputValues, setInputValue] = useState({
-        id: "",
         phone: "",
         street: "",
         city: "",

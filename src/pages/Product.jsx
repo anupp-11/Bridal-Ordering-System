@@ -3,14 +3,15 @@ import styled from "styled-components";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import React from 'react';
+import React from "react";
 import { withRouter } from "react-router";
-import { getProductById } from '../services/products.service';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import { getProductById } from "../services/products.service";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import ChatBot from "react-simple-chatbot";
 
 const Container = styled.div``;
 
@@ -31,10 +32,9 @@ const Image = styled.img`
   ${mobile({ height: "40vh" })}
 `;
 const ThumbnailImage = styled.img`
-  
   height: 15vh;
   object-fit: cover;
-  padding:10px;
+  padding: 10px;
   ${mobile({ height: "3vh" })}
 `;
 
@@ -122,18 +122,17 @@ const Button = styled.button`
   background-color: white;
   cursor: pointer;
   font-weight: 500;
-  &:hover{
-      background-color: #f8f4f4;
+  &:hover {
+    background-color: #f8f4f4;
   }
 `;
-const Product =(props)=> {
-
-
+const Product = (props) => {
   const [data, setData] = React.useState([]);
   const [isProcessing, setIsProcessing] = React.useState(true);
   const [product, setProduct] = React.useState({});
   const [index, setIndex] = React.useState(0);
   const [quantity, setQuantity] = React.useState(1);
+  const [visible,setVisible] = React.useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -144,57 +143,67 @@ const Product =(props)=> {
       setIsProcessing(false);
     }
 
-    fetchMyAPI()
+    fetchMyAPI();
   }, []);
 
-
-function setIndexx(e) {
-  e.stopPropagation();
-  setIndex(e.target.id);
-}
-function handleIncrement(e) {
-  e.stopPropagation();
-  var c = quantity + 1;
-  setQuantity(c);
-};
-
-function handleDecrement(e){
-  debugger;
-  e.stopPropagation();
-  if (quantity > 0) {
-    var c = quantity - 1;
+  function setIndexx(e) {
+    e.stopPropagation();
+    setIndex(e.target.id);
+  }
+  function handleIncrement(e) {
+    e.stopPropagation();
+    var c = quantity + 1;
     setQuantity(c);
   }
 
-};
+  function handleDecrement(e) {
+    debugger;
+    e.stopPropagation();
+    if (quantity > 0) {
+      var c = quantity - 1;
+      setQuantity(c);
+    }
+  }
 
-function handleOnClick(){
-  dispatch(addProduct({product,quantity }));
-}
+  function handleOnClick() {
+    dispatch(addProduct({ product, quantity }));
+  }
 
+  function showChat(){
+    setVisible(true);
+  }
 
+  function hideChat(){
+    setVisible(false);
+  }
 
   if (isProcessing) {
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '40vh' }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "40vh",
+        }}
+      >
         <CircularProgress />
       </Box>
-    )
+    );
   } else {
     return (
       <Container>
         <Navbar />
         <Wrapper>
           <ImgContainer>
-
             <Image src={product.images[index].img} />
-            {product.images.map((item, index) => <ThumbnailImage id={index} src={item.img} onClick={setIndexx} />)}
+            {product.images.map((item, index) => (
+              <ThumbnailImage id={index} src={item.img} onClick={setIndexx} />
+            ))}
           </ImgContainer>
           <InfoContainer>
             <Title>{product.name}</Title>
-            <Desc>
-              {product.description}
-            </Desc>
+            <Desc>{product.description}</Desc>
             <Price>{product.price}</Price>
             <AddContainer>
               <AmountContainer>
@@ -204,13 +213,84 @@ function handleOnClick(){
               </AmountContainer>
               <Button onClick={handleOnClick}>ADD TO CART</Button>
             </AddContainer>
+            <div
+              style={{
+                //background: "red",
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
+                height: "50%",
+                width: "100%",
+              }}
+            >
+              
+              {!visible ?(<Button onClick={showChat}>CHAT</Button>):(<Button onClick={hideChat}>CLOSE</Button>)}
+             {visible?(
+               <ChatBot
+               steps={[
+                 {
+                   id: "1",
+                   message: "What is your name?",
+                   trigger: "name",
+                 },
+                 {
+                   id: "name",
+                   user: true,
+                   trigger: "3",
+                 },
+                 {
+                   id: "3",
+                   message: "Hi {previousValue}! What is your gender?",
+                   trigger: "gender",
+                 },
+                 {
+                   id: "gender",
+                   options: [
+                     { value: "male", label: "Male", trigger: "5" },
+                     { value: "female", label: "Female", trigger: "5" },
+                   ],
+                 },
+                 {
+                   id: "5",
+                   message: "How old are you?",
+                   trigger: "age",
+                 },
+                 {
+                   id: "age",
+                   user: true,
+                   trigger: "end-message",
+                   validator: (value) => {
+                     if (isNaN(value)) {
+                       return "value must be a number";
+                     } else if (value < 0) {
+                       return "value must be positive";
+                     } else if (value > 120) {
+                       return `${value}? Come on!`;
+                     }
+
+                     return true;
+                   },
+                 },
+                 
+                 {
+                   id: "end-message",
+                   message: "Thanks! Your data was submitted successfully!",
+                   end: true,
+                 },
+               ]}
+             />
+             ):(null)
+                
+             }
+             
+            </div>
           </InfoContainer>
         </Wrapper>
+
         <Footer />
       </Container>
     );
   }
-
-
 };
 export default withRouter(Product);
