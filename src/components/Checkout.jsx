@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { signUpService } from "../services/authServices";
-import {getOrder} from "../services/orderServices"
+import { getOrder } from "../services/orderServices"
 import { useHistory } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
+import MuiAlert from '@mui/material/Alert';
+import { Snackbar } from "@mui/material";
 
 
 
@@ -84,64 +86,91 @@ const Mystyle = styled.div`
 const Danger = styled.div`
   color: red;
 `
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Checkout = () => {
 
   const products = useSelector((state) => state.cart);
-  console.log("Products:",products);
+  console.log("Products:", products);
   let history = useHistory();
   const [inputValues, setInputValue] = useState({
-        phone: "",
-        street: "",
-        city: "",
-        state: "",
-        country: ""
+    phone: "",
+    street: "",
+    city: "",
+    state: "",
+    country: ""
   });
 
-
+  const [open, setOpen] = React.useState(false);
+  const [vertical, setVertical] = React.useState('top');
+  const [horizontal, setHorizontal] = React.useState('center');
+  const [message, setMessage] = React.useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
     setInputValue({ ...inputValues, [name]: value });
   }
-  
+
+  const route = () => {
+    history.push('/')
+  }
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const checkoutService = async () => {
     debugger;
     try {
 
       // if(validation.name && validation.email && validation.password === ""){
-      const response = await getOrder(inputValues,products.products);
+      const response = await getOrder(inputValues, products.products);
       debugger;
       const responseData = await response.json();
-      if(response.ok){
-        if(responseData.isError === false){
+      if (response.ok) {
+        if (responseData.isError === false) {
           debugger;
-          alert('Order has been placed Successfully')
-            setInputValue({
-                id: "",
-                phone: "",
-                street: "",
-                city: "",
-                state: "",
-                country: ""
-            })
+          setOpen(true);
+          setTimeout(route, 2000)
+          setInputValue({
+            id: "",
+            phone: "",
+            street: "",
+            city: "",
+            state: "",
+            country: ""
+          })
           history.push("/")
 
-        }else{
-          // alert(responseData.message)
+        } else {
+          setOpen(true);
+          setMessage(responseData.message)
         }
       }
-      // } else {
-      // }
       debugger;
     } catch {
 
     }
   }
   return (
-    
+
     <Container>
-      <Navbar/>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        key={vertical + horizontal}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Your Order Has Been Placed Successfully, Thankyou!!
+        </Alert>
+      </Snackbar>
+      <Navbar />
       <Wrapper>
         <Title>PLACE ORDER</Title>
         <Form>

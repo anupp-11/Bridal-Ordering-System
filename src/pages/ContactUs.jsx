@@ -1,11 +1,13 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { signUpService } from "../services/authServices";
 import { useHistory } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import MuiAlert from '@mui/material/Alert';
+import { Snackbar } from "@mui/material";
 
 const Container = styled.div``;
 const Container2 = styled.div`
@@ -69,7 +71,7 @@ box-sizing: border-box;
 `;
 
 
-const Button = styled.button`
+const Button1 = styled.button`
   border: none;
   padding: 15px 20px;
   background-color: teal;
@@ -85,65 +87,101 @@ const Mystyle = styled.div`
   align-items: center; 
   justify-content: space-between;
 `
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const Contactus = () => {
-    const [inputValues, setInputValue] = useState({
-        name: "",
-        email: "",
-        message: "",
-      });
+  let history = useHistory();
+  const [inputValues, setInputValue] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
-      function handleChange(event) {
-        const { name, value } = event.target;
-        setInputValue({ ...inputValues, [name]: value });
-      }
+  const [open, setOpen] = React.useState(false);
+  const [vertical, setVertical] = React.useState('top');
+  const [horizontal, setHorizontal] = React.useState('center');
+  const [message, setMessage] = React.useState(false);
 
-    return (
-        <Container>
-            <Navbar />
-            <ImgContainer>
-            <Container2>
-            <Wrapper>
-                <Title>CONTACT US</Title>
-                <Form>
-          <div>
-            <Input
-              name="name"
-              onChange={(e) => handleChange(e)}
-              placeholder="Name"
-              type="text"
-              value={inputValues.name} />
-          </div>
-          <div>
-            <Input
-              name="email"
-              onChange={(e) => handleChange(e)}
-              placeholder="email"
-              type="email"
-              value={inputValues.email} />
-          </div>
-          {/* </InputStyle> */}
-          <div>
-          <Input1  
-            name="message" 
-            onChange={(e) => handleChange(e)}
-            placeholder="Write something.." 
-            type="text"
-            value={inputValues.message}/>
-          </div>
-          <Mystyle>
-            <Button
-              type="submit"
-            //   onClick={registerService}
-              >SEND</Button>
-          </Mystyle>
-        </Form>
-            </Wrapper>
-            </Container2>
-            </ImgContainer>
-            <Footer />
-        </Container>
-    );
+  function handleChange(event) {
+    const { name, value } = event.target;
+    setInputValue({ ...inputValues, [name]: value });
+  }
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const route = () => {
+    history.push('/')
+  }
+
+  const contactUs = () => {
+    setOpen(true);
+    setTimeout(route, 2000)
+  }
+
+  return (
+    <Container>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        key={vertical + horizontal}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+          Thankyou for Contacting Us!!
+        </Alert>
+      </Snackbar>
+      <Navbar />
+      <ImgContainer>
+        <Container2>
+          <Wrapper>
+            <Title>CONTACT US</Title>
+            <Form>
+              <div>
+                <Input
+                  name="name"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Name"
+                  type="text"
+                  value={inputValues.name} />
+              </div>
+              <div>
+                <Input
+                  name="email"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="email"
+                  type="email"
+                  value={inputValues.email} />
+              </div>
+              {/* </InputStyle> */}
+              <div>
+                <Input1
+                  name="message"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Write something.."
+                  type="text"
+                  value={inputValues.message} />
+              </div>
+              <Mystyle>
+                <Button1
+                  type="submit"
+                  onClick={contactUs}
+                >SEND</Button1>
+              </Mystyle>
+            </Form>
+          </Wrapper>
+        </Container2>
+      </ImgContainer>
+      <Footer />
+    </Container>
+  );
 };
 
 export default Contactus;
