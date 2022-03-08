@@ -137,7 +137,7 @@ const Login = () => {
       if (response.ok) {
         if (responseData.isError === false) {
 
-          localStorage.setItem('LoginId', JSON.stringify(responseData.result))
+          localStorage.setItem('LogedIn', JSON.stringify(responseData.result))
           setOpen(true);
           setMessage(response.message);
           setTimeout(route,2000)

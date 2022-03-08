@@ -77,6 +77,32 @@ const MenuItems = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
+const loggedIn = async () => {
+  debugger;
+  const data = await JSON.parse(localStorage['LogedIn']);
+  debugger;
+  if (data) {
+    return (
+      <div>
+        <Link to="/register" style={{ textDecoration: 'none' }}>
+          <MenuItem>LOGOUT</MenuItem>
+        </Link>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <Link to="/register" style={{ textDecoration: 'none' }}>
+          <MenuItem>REGISTER</MenuItem>
+        </Link>
+
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <MenuItem>SIGN IN</MenuItem>
+        </Link>
+      </div>)
+  }
+}
+
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
   console.log(quantity);
@@ -109,7 +135,7 @@ const Navbar = () => {
             <MenuItems>CONTACT US</MenuItems>
           </Link>
 
-          
+
         </Center>
         <Right>
           <Language>EN</Language>
@@ -117,13 +143,7 @@ const Navbar = () => {
             <Input placeholder="Search" />
             <Search style={{ color: "gray", fontSize: 16 }} />
           </SearchContainer>
-          <Link to="/register" style={{ textDecoration: 'none' }}>
-            <MenuItem>REGISTER</MenuItem>
-          </Link>
-
-          <Link to="/login" style={{ textDecoration: 'none' }}>
-            <MenuItem>SIGN IN</MenuItem>
-          </Link>
+          {loggedIn}
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">
