@@ -171,9 +171,9 @@ const Register = () => {
     setValidation(errors);
   }
 
-  // useEffect(() => {
-  //   checkValidation();
-  // }, [inputValues]);
+  const route = () => {
+    history.push("/login")
+  }
 
   const registerService = async () => {
     debugger;
@@ -192,7 +192,7 @@ const Register = () => {
             email: '',
             password: '',
           })
-          // history.push("/login")
+          setTimeout(route,2000);
 
         }else{
           setValidation({
