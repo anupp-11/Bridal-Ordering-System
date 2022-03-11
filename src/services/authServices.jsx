@@ -25,3 +25,12 @@ export async function signUpService(item) {
     return response;
 
 }
+
+export async function getUserInfo(){
+    const userInfo = JSON.parse(localStorage.getItem('LogedIn'));
+    if(userInfo){
+        return userInfo;
+    }else{
+        return null;
+    }
+}

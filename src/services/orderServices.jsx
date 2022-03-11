@@ -1,11 +1,13 @@
 import { ADD_ORDER_URL } from "../constants/api";
+import {getUserInfo} from "./authServices";
+
 
 export async function getOrder (address,products) {
     debugger;
-    const loginId = JSON.parse( localStorage.getItem('LoginId'));
-    const jwtToken = loginId.token;
+    const user = await getUserInfo();
+    const jwtToken = user.jwtToken;
     const requestBody = {
-        userId: loginId.id,
+        userId: user.id,
         address: {
           phone: address.phone,
           street: address.street,
@@ -16,16 +18,28 @@ export async function getOrder (address,products) {
         products: products
       }
       debugger;
-    const response = await fetch(ADD_ORDER_URL,
-    {   method: 'POST',
-        headers:{
-          'Authorization': `Bearer'${jwtToken}`, 
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: JSON.stringify(requestBody)
-    });
-    debugger;
-    const data = await response.json();
-    debugger;
-    return  data;
+    try {
+        const response = await fetch(ADD_ORDER_URL, {
+            method: 'post',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`}),
+            body: JSON.stringify(requestBody)
+            });
+            const data = await response.json();
+            return  data;
+    } catch (error) {
+        console.log(error.message);
+    }
+    // const response = await fetch(ADD_ORDER_URL,
+    // {   method: 'POST',
+    // headers: new Headers({
+    //   'Content-Type': 'application/json',
+    //   'Authorization': `Bearer ${jwtToken}`}),
+    //     body: JSON.stringify(requestBody)
+    // });
+    // debugger;
+    // const data = await response.json();
+    // debugger;
+    // return  data;
 }

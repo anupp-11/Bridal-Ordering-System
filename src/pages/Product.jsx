@@ -16,7 +16,9 @@ import Card from "@mui/material/Card";
 import Rating from "@mui/material/Rating";
 import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
+import { getReviewByProductId, postReview } from "../services/review.service";
+import { getUserInfo } from "../services/authServices";
 
 const Container = styled.div``;
 
@@ -114,49 +116,70 @@ const Product = (props) => {
   const [quantity, setQuantity] = React.useState(1);
   const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
-  const [review, setReview] = React.useState('');
+  const [review, setReview] = React.useState("");
+  const [reviews, setReviews] = React.useState();
+  const [user, setUser] = React.useState("");
+  const [productId, setProductId] = React.useState("");
 
   useEffect(() => {
     async function fetchMyAPI() {
+      debugger;
       const id = props.match.params.id;
+      setProductId(id);
       const product = await getProductById(id);
       setProduct(product);
+      const rev = await getReviewByProductId(id);
+      if (rev) {
+        setReviews(rev);
+      }
+      const user = await getUserInfo();
+      setUser(user);
       setIsProcessing(false);
     }
 
     fetchMyAPI();
-  });
+  }, []);
 
   const handleChange = (event) => {
     setReview(event.target.value);
   };
 
-  const card = (
-    <React.Fragment>
-      <CardContent>
-        <Rating name="read-only" value={value} readOnly />
-        <Typography sx={{ mb: 1.5 }}>
-          Review of the product given by the user is displayed.
-        </Typography>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            Username
-          </Typography>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            2021/02/21
-          </Typography>
-        </div>
-      </CardContent>
-    </React.Fragment>
-  );
-
+  function ReviewsCard(props){
+    const review = props.review;
+    return(
+      <React.Fragment>
+          <CardContent>
+            <Rating name="read-only" value={review.rating} readOnly />
+            <Typography sx={{ mb: 1.5 }}>
+              {review.message}
+            </Typography>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {review.userName}
+              </Typography>
+              <Typography
+                sx={{ fontSize: 14 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                2021/02/21
+              </Typography>
+            </div>
+          </CardContent>
+        </React.Fragment>
+    );
+  }
   const reviewCard = (
     <React.Fragment>
       <CardContent>
@@ -178,7 +201,6 @@ const Product = (props) => {
           value={review}
           onChange={handleChange}
         />
-       
       </CardContent>
     </React.Fragment>
   );
@@ -204,6 +226,17 @@ const Product = (props) => {
 
   function handleOnClick() {
     dispatch(addProduct({ product, quantity }));
+  }
+
+  async function onReviewSubmit() {
+    const producReview = {
+      userName: user.name,
+      productId: productId,
+      message: review,
+      rating: value,
+    };
+    const response = await postReview(producReview);
+    debugger;
   }
 
   function showChat() {
@@ -250,7 +283,8 @@ const Product = (props) => {
               </AmountContainer>
               <SButton onClick={handleOnClick}>ADD TO CART</SButton>
             </AddContainer>
-            
+            <Desc>Stock: {product.stock}</Desc>
+
             <div
               style={{
                 //background: "red",
@@ -349,11 +383,10 @@ const Product = (props) => {
               variant="outlined"
             >
               {reviewCard}
-              
             </Card>
-            <SButton onClick={handleOnClick}>SUBMIT</SButton>
+            <SButton onClick={onReviewSubmit}>SUBMIT</SButton>
           </Box>
-            {/* Reviews */}
+          {/* Reviews */}
           <Box
             sx={{
               minWidth: "45%",
@@ -370,19 +403,14 @@ const Product = (props) => {
             >
               Product Reviews
             </Typography>
-            <Card
+            {reviews.map((item, index) => (
+              <Card
               sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
               variant="outlined"
             >
-              {card}
-              
+              <ReviewsCard review={item}/>
             </Card>
-            <Card
-              sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
-              variant="outlined"
-            >
-              {card}
-            </Card>
+            ))}
           </Box>
         </ReviewWrapper>
 

@@ -6,6 +6,10 @@ export const ADD_PRODUCTS = "/Product/add";
 export const GET_PRODUCT_BY_ID = "/Product/:id";
 export const DELETE_PRODUCT = "/Product/:id";
 
+//Review
+export const GET_REVIEW_BY_PRODUCTID = "/ProductRating/get";
+export const ADD_REVIEWS = "/ProductRating/add";
+
 //package
 export const GET_PACKAGES = "/Package/get";
 export const GET_PACKAGE_BY_ID = "/Package/get/:id";
@@ -42,3 +46,8 @@ export const CAROUSEL = `${BASE_URL}${GET_CAROUSEL}`
 //Order
 
 export const ADD_ORDER_URL = `${BASE_URL}${ADD_ORDER}`
+
+
+//REVIEW
+export const GET_REVIEW_BY_PRODUCTID_URL = `${BASE_URL}${GET_REVIEW_BY_PRODUCTID}`;
+export const ADD_REVIEWS_URL = `${BASE_URL}${ADD_REVIEWS}`;
