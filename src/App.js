@@ -7,6 +7,7 @@ import AboutUs from "./pages/AboutUs";
 import Contactus from "./pages/ContactUs";
 import Checkout from "./components/Checkout";
 import Package from "./pages/Package";
+import Profile from "./pages/Profile";
 import {
   BrowserRouter as Router,
   Switch,
@@ -53,6 +54,10 @@ const App = () => {
         </Route>
         <Route path="/checkout">
           <Checkout />
+        </Route>
+
+        <Route path="/profile">
+          <Profile/>
         </Route>
       </Switch>
     </Router>
