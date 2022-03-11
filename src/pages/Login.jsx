@@ -136,7 +136,7 @@ const Login = () => {
       const responseData = await response.json();
       if (response.ok) {
         if (responseData.isError === false) {
-
+          localStorage.setItem('LoginInfo', JSON.stringify(inputValues));
           localStorage.setItem('LogedIn', JSON.stringify(responseData.result))
           setOpen(true);
           setMessage(response.message);

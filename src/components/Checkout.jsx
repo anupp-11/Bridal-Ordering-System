@@ -106,7 +106,7 @@ const Checkout = () => {
   const [open, setOpen] = React.useState(false);
   const [vertical, setVertical] = React.useState('top');
   const [horizontal, setHorizontal] = React.useState('center');
-  const [message, setMessage] = React.useState(false);
+  const [message, setMessage] = React.useState('Your Order Has Been Placed Successfully, Thankyou!!');
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -145,7 +145,6 @@ const Checkout = () => {
             state: "",
             country: ""
           })
-          history.push("/")
 
         } else {
           setOpen(true);
@@ -154,7 +153,8 @@ const Checkout = () => {
       }
       debugger;
     } catch {
-
+      setOpen(true);
+      setMessage('Error!! Try Later')
     }
   }
   return (
@@ -167,7 +167,7 @@ const Checkout = () => {
         onClose={handleClose}
         key={vertical + horizontal}>
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Your Order Has Been Placed Successfully, Thankyou!!
+          {message}
         </Alert>
       </Snackbar>
       <Navbar />
