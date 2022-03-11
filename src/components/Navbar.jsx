@@ -1,5 +1,6 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined } from "@material-ui/icons";
+import { Search, ShoppingCartOutlined, AccountCircleOutlined} from "@material-ui/icons";
+
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
@@ -51,10 +52,6 @@ const Center = styled.div`
   justify-content: flex-start;
 `;
 
-// const Logo = styled.h1`
-//   font-weight: bold;
-//   ${mobile({ fontSize: "24px" })}
-// `;
 const Right = styled.div`
   flex: 1;
   display: flex;
@@ -146,8 +143,8 @@ const Navbar = () => {
           {loggedIn}
           <Link to="/profile">
             <MenuItem>
-              <Badge badgeContent={quantity} color="primary">
-                <ShoppingCartOutlined />
+              <Badge  color="primary">
+                <AccountCircleOutlined />
               </Badge>
             </MenuItem>
           </Link>

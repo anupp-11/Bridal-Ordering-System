@@ -127,15 +127,13 @@ const Checkout = () => {
   const checkoutService = async () => {
     debugger;
     try {
-
-      // if(validation.name && validation.email && validation.password === ""){
       const response = await getOrder(inputValues, products.products);
       debugger;
-      const responseData = await response.json();
-      if (response.ok) {
-        if (responseData.isError === false) {
+      if (response.isSuccess) {
+        if (!response.isError) {
           debugger;
           setOpen(true);
+          setMessage("Order Placed Successfully!")
           setTimeout(route, 2000)
           setInputValue({
             id: "",
@@ -148,11 +146,12 @@ const Checkout = () => {
 
         } else {
           setOpen(true);
-          setMessage(responseData.message)
+          setMessage(response.message)
         }
       }
       debugger;
-    } catch {
+    } catch(error) {
+      debugger;
       setOpen(true);
       setMessage('Error!! Try Later')
     }
