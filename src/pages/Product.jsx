@@ -12,12 +12,25 @@ import { addProduct } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import ChatBot from "react-simple-chatbot";
+import Card from "@mui/material/Card";
+import Rating from "@mui/material/Rating";
+import Typography from "@mui/material/Typography";
+import CardContent from "@mui/material/CardContent";
+import TextField from '@mui/material/TextField';
 
 const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
+  ${mobile({ padding: "10px", flexDirection: "column" })}
+`;
+
+const ReviewWrapper = styled.div`
+  padding: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
 
@@ -57,40 +70,6 @@ const Price = styled.span`
   font-size: 40px;
 `;
 
-const FilterContainer = styled.div`
-  width: 50%;
-  margin: 30px 0px;
-  display: flex;
-  justify-content: space-between;
-  ${mobile({ width: "100%" })}
-`;
-
-const Filter = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const FilterTitle = styled.span`
-  font-size: 20px;
-  font-weight: 200;
-`;
-
-const FilterColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-  margin: 0px 5px;
-  cursor: pointer;
-`;
-
-const FilterSize = styled.select`
-  margin-left: 10px;
-  padding: 5px;
-`;
-
-const FilterSizeOption = styled.option``;
-
 const AddContainer = styled.div`
   width: 50%;
   display: flex;
@@ -116,7 +95,7 @@ const Amount = styled.span`
   margin: 0px 5px;
 `;
 
-const Button = styled.button`
+const SButton = styled.button`
   padding: 15px;
   border: 2px solid teal;
   background-color: white;
@@ -126,14 +105,16 @@ const Button = styled.button`
     background-color: #f8f4f4;
   }
 `;
+
 const Product = (props) => {
-  const [data, setData] = React.useState([]);
+  const [value, setValue] = React.useState(2);
   const [isProcessing, setIsProcessing] = React.useState(true);
   const [product, setProduct] = React.useState({});
   const [index, setIndex] = React.useState(0);
   const [quantity, setQuantity] = React.useState(1);
-  const [visible,setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
+  const [review, setReview] = React.useState('');
 
   useEffect(() => {
     async function fetchMyAPI() {
@@ -144,7 +125,63 @@ const Product = (props) => {
     }
 
     fetchMyAPI();
-  }, []);
+  });
+
+  const handleChange = (event) => {
+    setReview(event.target.value);
+  };
+
+  const card = (
+    <React.Fragment>
+      <CardContent>
+        <Rating name="read-only" value={value} readOnly />
+        <Typography sx={{ mb: 1.5 }}>
+          Review of the product given by the user is displayed.
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            Username
+          </Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            2021/02/21
+          </Typography>
+        </div>
+      </CardContent>
+    </React.Fragment>
+  );
+
+  const reviewCard = (
+    <React.Fragment>
+      <CardContent>
+        <Typography component="legend">Rate the product.</Typography>
+        <Rating
+          name="simple-controlled"
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+        />
+        {/* <Typography component="legend">Rate the product.</Typography> */}
+        <TextField
+          id="outlined-multiline-flexible"
+          label="Write your review..."
+          fullWidth
+          multiline
+          maxRows={4}
+          value={review}
+          onChange={handleChange}
+        />
+       
+      </CardContent>
+    </React.Fragment>
+  );
 
   function setIndexx(e) {
     e.stopPropagation();
@@ -169,11 +206,11 @@ const Product = (props) => {
     dispatch(addProduct({ product, quantity }));
   }
 
-  function showChat(){
+  function showChat() {
     setVisible(true);
   }
 
-  function hideChat(){
+  function hideChat() {
     setVisible(false);
   }
 
@@ -204,15 +241,16 @@ const Product = (props) => {
           <InfoContainer>
             <Title>{product.name}</Title>
             <Desc>{product.description}</Desc>
-            <Price>{product.price}</Price>
+            <Price>Rs. {product.price}</Price>
             <AddContainer>
               <AmountContainer>
                 <Remove onClick={handleDecrement} />
                 <Amount>{quantity}</Amount>
                 <Add onClick={handleIncrement} />
               </AmountContainer>
-              <Button onClick={handleOnClick}>ADD TO CART</Button>
+              <SButton onClick={handleOnClick}>ADD TO CART</SButton>
             </AddContainer>
+            
             <div
               style={{
                 //background: "red",
@@ -224,69 +262,129 @@ const Product = (props) => {
                 width: "100%",
               }}
             >
-              
-              {!visible ?(<Button onClick={showChat}>CHAT</Button>):(<Button onClick={hideChat}>CLOSE</Button>)}
-             {visible?(
-               <ChatBot
-               steps={[
-                 {
-                   id: "1",
-                   message: "What is your name?",
-                   trigger: "name",
-                 },
-                 {
-                   id: "name",
-                   user: true,
-                   trigger: "3",
-                 },
-                 {
-                   id: "3",
-                   message: "Hi {previousValue}! What is your gender?",
-                   trigger: "gender",
-                 },
-                 {
-                   id: "gender",
-                   options: [
-                     { value: "male", label: "Male", trigger: "5" },
-                     { value: "female", label: "Female", trigger: "5" },
-                   ],
-                 },
-                 {
-                   id: "5",
-                   message: "How old are you?",
-                   trigger: "age",
-                 },
-                 {
-                   id: "age",
-                   user: true,
-                   trigger: "end-message",
-                   validator: (value) => {
-                     if (isNaN(value)) {
-                       return "value must be a number";
-                     } else if (value < 0) {
-                       return "value must be positive";
-                     } else if (value > 120) {
-                       return `${value}? Come on!`;
-                     }
+              {!visible ? (
+                <SButton onClick={showChat}>CHAT</SButton>
+              ) : (
+                <SButton onClick={hideChat}>CLOSE</SButton>
+              )}
+              {visible ? (
+                <ChatBot
+                  steps={[
+                    {
+                      id: "1",
+                      message: "What is your name?",
+                      trigger: "name",
+                    },
+                    {
+                      id: "name",
+                      user: true,
+                      trigger: "3",
+                    },
+                    {
+                      id: "3",
+                      message: "Hi {previousValue}! What is your gender?",
+                      trigger: "gender",
+                    },
+                    {
+                      id: "gender",
+                      options: [
+                        { value: "male", label: "Male", trigger: "5" },
+                        { value: "female", label: "Female", trigger: "5" },
+                      ],
+                    },
+                    {
+                      id: "5",
+                      message: "How old are you?",
+                      trigger: "age",
+                    },
+                    {
+                      id: "age",
+                      user: true,
+                      trigger: "end-message",
+                      validator: (value) => {
+                        if (isNaN(value)) {
+                          return "value must be a number";
+                        } else if (value < 0) {
+                          return "value must be positive";
+                        } else if (value > 120) {
+                          return `${value}? Come on!`;
+                        }
 
-                     return true;
-                   },
-                 },
-                 
-                 {
-                   id: "end-message",
-                   message: "Thanks! Your data was submitted successfully!",
-                   end: true,
-                 },
-               ]}
-             />
-             ):(null)
-                
-             }
-             
+                        return true;
+                      },
+                    },
+
+                    {
+                      id: "end-message",
+                      message: "Thanks! Your data was submitted successfully!",
+                      end: true,
+                    },
+                  ]}
+                />
+              ) : null}
             </div>
           </InfoContainer>
         </Wrapper>
+
+        <ReviewWrapper>
+          {/* Review */}
+          <Box
+            sx={{
+              minWidth: "45%",
+              borderRadius: 3,
+              border: 1,
+              p: 2,
+              borderColor: "#f8f4f4",
+            }}
+          >
+            <Typography
+              sx={{ fontSize: 16 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Add Your Review
+            </Typography>
+            <Card
+              sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
+              variant="outlined"
+            >
+              {reviewCard}
+              
+            </Card>
+            <SButton onClick={handleOnClick}>SUBMIT</SButton>
+          </Box>
+            {/* Reviews */}
+          <Box
+            sx={{
+              minWidth: "45%",
+              borderRadius: 3,
+              border: 1,
+              p: 2,
+              borderColor: "#f8f4f4",
+            }}
+          >
+            <Typography
+              sx={{ fontSize: 16 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Product Reviews
+            </Typography>
+            <Card
+              sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
+              variant="outlined"
+            >
+              {card}
+              
+            </Card>
+            <Card
+              sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
+              variant="outlined"
+            >
+              {card}
+            </Card>
+          </Box>
+        </ReviewWrapper>
 
         <Footer />
       </Container>
