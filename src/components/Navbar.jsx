@@ -1,9 +1,9 @@
 import { Badge } from "@material-ui/core";
 import {
-  Search,
   ShoppingCartOutlined,
   AccountCircleOutlined,
 } from "@material-ui/icons";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import React from "react";
 import styled from "styled-components";
@@ -109,7 +109,6 @@ const Navbar = () => {
     window.location.reload();
   }
 
-  debugger;
   return (
     <Container>
       <Wrapper>
@@ -145,15 +144,29 @@ const Navbar = () => {
           </SearchContainer> */}
 
           {data ? (
-            <div>
+            <div
+              style={{
+                display: "flex",
+                aliginItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
               <Link style={{ textDecoration: "none" }}>
-                <MenuItem onClick={onLogout}>LOGOUT</MenuItem>
+                <MenuItem onClick={onLogout}>Logout</MenuItem>
+              </Link>
+              <Link to="/profile">
+                <MenuItem>
+                  <Badge color="primary">
+                    <AccountCircleOutlined />
+                  </Badge>
+                </MenuItem>
               </Link>
             </div>
           ) : (
-            <div style={{display:'flex'}}>
+            <div style={{ display: "flex" }}>
               <Link to="/register" style={{ textDecoration: "none" }}>
-                <MenuItem >REGISTER</MenuItem>
+                <MenuItem>REGISTER</MenuItem>
               </Link>
 
               <Link to="/login" style={{ textDecoration: "none" }}>
@@ -162,13 +175,6 @@ const Navbar = () => {
             </div>
           )}
 
-          <Link to="/profile">
-            <MenuItem>
-              <Badge color="primary">
-                <AccountCircleOutlined />
-              </Badge>
-            </MenuItem>
-          </Link>
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">
