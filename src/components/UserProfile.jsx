@@ -50,7 +50,7 @@ const UserProfile = ({ item }) => {
     async function fetchMyAPI() {}
 
     fetchMyAPI();
-  });
+  },[]);
 
   function handleOnClick() {
     

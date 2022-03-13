@@ -1,12 +1,19 @@
 import { Badge } from "@material-ui/core";
-import { Search, ShoppingCartOutlined, AccountCircleOutlined} from "@material-ui/icons";
+import {
+  Search,
+  ShoppingCartOutlined,
+  AccountCircleOutlined,
+} from "@material-ui/icons";
 
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import Logo from '../assets/Logo.png'
+import Logo from "../assets/Logo.png";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {getUserInfo} from "../services/authServices.jsx";
+
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -68,41 +75,40 @@ const MenuItem = styled.div`
 `;
 const MenuItems = styled.div`
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   cursor: pointer;
   margin-left: 20px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
-const loggedIn = async () => {
-  debugger;
-  const data = await JSON.parse(localStorage['LogedIn']);
-  debugger;
-  if (data) {
-    return (
-      <div>
-        <Link to="/register" style={{ textDecoration: 'none' }}>
-          <MenuItem>LOGOUT</MenuItem>
-        </Link>
-      </div>
-    )
-  } else {
-    return (
-      <div>
-        <Link to="/register" style={{ textDecoration: 'none' }}>
-          <MenuItem>REGISTER</MenuItem>
-        </Link>
-
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <MenuItem>SIGN IN</MenuItem>
-        </Link>
-      </div>)
+const Button = styled.button`
+  background-color: white;
+  cursor: pointer;
+  font-weight: 500;
+  &:hover {
+    background-color: #f8f4f4;
   }
-}
+`;
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
   console.log(quantity);
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      const response = await getUserInfo();
+      setData(response);
+    }
+
+    fetchMyAPI();
+  },[]);
+
+  function onLogout(){
+    localStorage.removeItem('LogedIn');
+    window.location.reload();
+  }
+
   debugger;
   return (
     <Container>
@@ -113,37 +119,52 @@ const Navbar = () => {
               <img height="40px" src={Logo} />
             </Link>
           </div>
-
         </Left>
         <Center>
-          <Link to="/" style={{ textDecoration: 'none' }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
             <MenuItems>HOME</MenuItems>
           </Link>
 
-          <Link to="/products" style={{ textDecoration: 'none' }}>
+          <Link to="/products" style={{ textDecoration: "none" }}>
             <MenuItems>PRODUCT & PACKAGES</MenuItems>
           </Link>
 
-          <Link to="/aboutus" style={{ textDecoration: 'none' }}>
+          <Link to="/aboutus" style={{ textDecoration: "none" }}>
             <MenuItems>ABOUT US</MenuItems>
           </Link>
 
-          <Link to="/contactus" style={{ textDecoration: 'none' }}>
+          <Link to="/contactus" style={{ textDecoration: "none" }}>
             <MenuItems>CONTACT US</MenuItems>
           </Link>
-
-
         </Center>
         <Right>
-          <Language>EN</Language>
+          {/* <Language>EN</Language>
           <SearchContainer>
             <Input placeholder="Search" />
             <Search style={{ color: "gray", fontSize: 16 }} />
-          </SearchContainer>
-          {loggedIn}
+          </SearchContainer> */}
+
+          {data ? (
+            <div>
+              <Link style={{ textDecoration: "none" }}>
+                <MenuItem onClick={onLogout}>LOGOUT</MenuItem>
+              </Link>
+            </div>
+          ) : (
+            <div style={{display:'flex'}}>
+              <Link to="/register" style={{ textDecoration: "none" }}>
+                <MenuItem >REGISTER</MenuItem>
+              </Link>
+
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <MenuItem>SIGN IN</MenuItem>
+              </Link>
+            </div>
+          )}
+
           <Link to="/profile">
             <MenuItem>
-              <Badge  color="primary">
+              <Badge color="primary">
                 <AccountCircleOutlined />
               </Badge>
             </MenuItem>

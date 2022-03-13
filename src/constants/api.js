@@ -24,6 +24,7 @@ export const GET_CAROUSEL = "/Carousel/get";
 
 //Order
 export const ADD_ORDER = "/Order/add"
+export const GET_ORDER = "/Order/get";
 
 
 //Products
@@ -45,7 +46,8 @@ export const CAROUSEL = `${BASE_URL}${GET_CAROUSEL}`
 
 //Order
 
-export const ADD_ORDER_URL = `${BASE_URL}${ADD_ORDER}`
+export const ADD_ORDER_URL = `${BASE_URL}${ADD_ORDER}`;
+export const GET_ORDER_URL = `${BASE_URL}${GET_ORDER}`;
 
 
 //REVIEW

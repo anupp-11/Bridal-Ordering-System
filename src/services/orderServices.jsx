@@ -1,8 +1,8 @@
-import { ADD_ORDER_URL } from "../constants/api";
+import { ADD_ORDER_URL,GET_ORDER_URL } from "../constants/api";
 import {getUserInfo} from "./authServices";
 
 
-export async function getOrder (address,products) {
+export async function placeOrder (address,products) {
     debugger;
     const user = await getUserInfo();
     const jwtToken = user.jwtToken;
@@ -15,7 +15,7 @@ export async function getOrder (address,products) {
           state: address.state,
           country: address.country
         },
-        products: products
+        orderedProducts: products
       }
       debugger;
     try {
@@ -31,15 +31,24 @@ export async function getOrder (address,products) {
     } catch (error) {
         console.log(error.message);
     }
-    // const response = await fetch(ADD_ORDER_URL,
-    // {   method: 'POST',
-    // headers: new Headers({
-    //   'Content-Type': 'application/json',
-    //   'Authorization': `Bearer ${jwtToken}`}),
-    //     body: JSON.stringify(requestBody)
-    // });
-    // debugger;
-    // const data = await response.json();
-    // debugger;
-    // return  data;
+}
+
+export async function getOrders () {
+    
+    const user = await getUserInfo();
+    const jwtToken = user.jwtToken;
+    debugger;
+    try {
+        const response = await fetch(GET_ORDER_URL, {
+            method: 'get',
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${jwtToken}`}),
+            });
+            const data = await response.json();
+            return  data;
+            debugger;
+    } catch (error) {
+        console.log(error.message);
+    }
 }
