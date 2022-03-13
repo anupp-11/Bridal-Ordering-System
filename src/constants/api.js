@@ -6,6 +6,15 @@ export const ADD_PRODUCTS = "/Product/add";
 export const GET_PRODUCT_BY_ID = "/Product/:id";
 export const DELETE_PRODUCT = "/Product/:id";
 
+//Address
+export const GET_ADDRESS = "/Address/getuseraddress";
+export const ADD_ADDRESS = "/Address/add";
+export const UPDATE_ADDRESS = "/Address/update";
+
+//Contactus
+export const ADD_CONTACTUS = "/ContactUs/add";
+
+
 //Review
 export const GET_REVIEW_BY_PRODUCTID = "/ProductRating/get";
 export const ADD_REVIEWS = "/ProductRating/add";
@@ -24,7 +33,7 @@ export const GET_CAROUSEL = "/Carousel/get";
 
 //Order
 export const ADD_ORDER = "/Order/add"
-export const GET_ORDER = "/Order/get";
+export const GET_ORDER = "/Order/userorders";
 
 
 //Products
@@ -50,6 +59,15 @@ export const ADD_ORDER_URL = `${BASE_URL}${ADD_ORDER}`;
 export const GET_ORDER_URL = `${BASE_URL}${GET_ORDER}`;
 
 
+
 //REVIEW
 export const GET_REVIEW_BY_PRODUCTID_URL = `${BASE_URL}${GET_REVIEW_BY_PRODUCTID}`;
 export const ADD_REVIEWS_URL = `${BASE_URL}${ADD_REVIEWS}`;
+
+//Address
+export const GET_ADDRESS_URL = `${BASE_URL}${GET_ADDRESS}`;
+export const ADD_ADDRESS_URL = `${BASE_URL}${ADD_ADDRESS}`;
+export const UPDATE_ADDRESS_URL = `${BASE_URL}${UPDATE_ADDRESS}`;
+
+//Contactus
+export const ADD_CONTACTUS_URL = `${BASE_URL}${ADD_CONTACTUS}`;

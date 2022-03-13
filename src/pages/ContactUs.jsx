@@ -3,6 +3,7 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { signUpService } from "../services/authServices";
+import { postContactUs } from "../services/contactUs.service";
 import { useHistory } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -96,6 +97,7 @@ const Contactus = () => {
   const [inputValues, setInputValue] = useState({
     name: "",
     email: "",
+    phone:"",
     message: "",
   });
 
@@ -121,9 +123,26 @@ const Contactus = () => {
     history.push('/')
   }
 
-  const contactUs = () => {
-    setOpen(true);
-    setTimeout(route, 2000)
+  const contactUs = async () => {
+    try {
+      const response = await postContactUs(inputValues);
+      debugger;
+      if (response.isSuccess) {
+        if (!response.isError) {
+          debugger;
+          setOpen(true);
+          setTimeout(route, 2000)
+        } else {
+          setOpen(true);
+          setMessage(response.message)
+        }
+      }
+      debugger;
+    } catch (error) {
+      debugger;
+      setOpen(true);
+      setMessage('Error!! Try Later')
+    }
   }
 
   return (
@@ -156,9 +175,17 @@ const Contactus = () => {
                 <Input
                   name="email"
                   onChange={(e) => handleChange(e)}
-                  placeholder="email"
+                  placeholder="Email"
                   type="email"
                   value={inputValues.email} />
+              </div>
+              <div>
+                <Input
+                  name="phone"
+                  onChange={(e) => handleChange(e)}
+                  placeholder="Phone"
+                  type="phone"
+                  value={inputValues.phone} />
               </div>
               {/* </InputStyle> */}
               <div>
