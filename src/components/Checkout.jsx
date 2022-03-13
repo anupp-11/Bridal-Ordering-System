@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { signUpService } from "../services/authServices";
 import { placeOrder } from "../services/orderServices"
 import { useHistory } from "react-router-dom";
@@ -10,6 +10,8 @@ import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import MuiAlert from '@mui/material/Alert';
 import { Snackbar } from "@mui/material";
+import SimpleReactValidator from 'simple-react-validator';
+import { ClassNames } from "@emotion/react";
 
 
 
@@ -103,12 +105,16 @@ const Checkout = () => {
     country: ""
   });
 
+  const[Error,setError] = useState('')
+  const simpleValidator = useRef(new SimpleReactValidator())
+
   const [open, setOpen] = React.useState(false);
   const [vertical, setVertical] = React.useState('top');
   const [horizontal, setHorizontal] = React.useState('center');
   const [message, setMessage] = React.useState('Your Order Has Been Placed Successfully, Thankyou!!');
 
   function handleChange(event) {
+    setError('')
     const { name, value } = event.target;
     setInputValue({ ...inputValues, [name]: value });
   }
@@ -126,34 +132,39 @@ const Checkout = () => {
 
   const checkoutService = async () => {
     debugger;
-    try {
-      const response = await placeOrder(inputValues, products.products);
+    if (simpleValidator.current.allValid()) {
       debugger;
-      if (response.isSuccess) {
-        if (!response.isError) {
-          debugger;
-          setOpen(true);
-          setMessage("Order Placed Successfully!")
-          setTimeout(route, 2000)
-          setInputValue({
-            id: "",
-            phone: "",
-            street: "",
-            city: "",
-            state: "",
-            country: ""
-          })
+      try {
+        const response = await placeOrder(inputValues, products.products);
+        debugger;
+        if (response.isSuccess) {
+          if (!response.isError) {
+            debugger;
+            setOpen(true);
+            setMessage("Order Placed Successfully!")
+            setTimeout(route, 2000)
+            setInputValue({
+              id: "",
+              phone: "",
+              street: "",
+              city: "",
+              state: "",
+              country: ""
+            })
 
-        } else {
-          setOpen(true);
-          setMessage(response.message)
+          } else {
+            setOpen(true);
+            setMessage(response.message)
+          }
         }
+        debugger;
+      } catch (error) {
+        debugger;
+        setOpen(true);
+        setMessage('Error!! Try Later')
       }
-      debugger;
-    } catch(error) {
-      debugger;
-      setOpen(true);
-      setMessage('Error!! Try Later')
+    } else {
+      setError('Form Incomplete')
     }
   }
   return (
@@ -179,7 +190,10 @@ const Checkout = () => {
               onChange={(e) => handleChange(e)}
               placeholder="Phone Number"
               type="number"
-              value={inputValues.phone} />
+              value={inputValues.phone}
+              onBlur={() => simpleValidator.current.showMessageFor('phone')} />
+              <Danger>{simpleValidator.current.message('phone', inputValues.phone, 'required|min:10')}</Danger>
+                
           </div>
           <div>
             <Input
@@ -187,7 +201,9 @@ const Checkout = () => {
               onChange={(e) => handleChange(e)}
               placeholder="Street"
               type="text"
-              value={inputValues.street} />
+              value={inputValues.street}
+              onBlur={() => simpleValidator.current.showMessageFor('street')} />
+            <Danger>{simpleValidator.current.message('street', inputValues.street, 'required')}</Danger>
           </div>
           <div>
             <Input
@@ -195,7 +211,10 @@ const Checkout = () => {
               onChange={(e) => handleChange(e)}
               placeholder="City"
               type="text"
-              value={inputValues.city} />
+              value={inputValues.city}
+              onBlur={() => simpleValidator.current.showMessageFor('city')} />
+              <Danger>{simpleValidator.current.message('city', inputValues.city, 'required')}</Danger>
+            
           </div>
           <div>
             <Input
@@ -203,7 +222,9 @@ const Checkout = () => {
               onChange={(e) => handleChange(e)}
               placeholder="State"
               type="text"
-              value={inputValues.state} />
+              value={inputValues.state}
+              onBlur={() => simpleValidator.current.showMessageFor('state')} />
+            <Danger>{simpleValidator.current.message('state', inputValues.state, 'required')}</Danger>
           </div>
           <div>
             <Input
@@ -211,8 +232,13 @@ const Checkout = () => {
               onChange={(e) => handleChange(e)}
               placeholder="Country"
               type="text"
-              value={inputValues.country} />
+              value={inputValues.country}
+              onBlur={() => simpleValidator.current.showMessageFor('country')} />
+            <Danger>{simpleValidator.current.message('country', inputValues.country, 'required')}</Danger>
           </div>
+          <Danger>
+            {Error}
+          </Danger>
           <Mystyle>
             <Button
               type="submit"
