@@ -9,6 +9,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import * as React from "react";
 import UserProfile from "../components/UserProfile.jsx";
+import  Order  from "../components/Order.jsx";
 
 const Container = styled.div``;
 const Container2 = styled.div`
@@ -125,7 +126,7 @@ const Profile = () => {
                   </TabList>
                 </Box>
                 <TabPanel value="1"><UserProfile/></TabPanel>
-                <TabPanel value="2">Orders</TabPanel>
+                <TabPanel value="2"><Order/></TabPanel>
               </TabContext>
             </Box>
           </Wrapper>

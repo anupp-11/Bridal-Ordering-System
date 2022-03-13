@@ -3,7 +3,7 @@ import { mobile } from "../responsive";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { signUpService } from "../services/authServices";
-import { getOrder } from "../services/orderServices"
+import { placeOrder } from "../services/orderServices"
 import { useHistory } from "react-router-dom";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
@@ -127,7 +127,7 @@ const Checkout = () => {
   const checkoutService = async () => {
     debugger;
     try {
-      const response = await getOrder(inputValues, products.products);
+      const response = await placeOrder(inputValues, products.products);
       debugger;
       if (response.isSuccess) {
         if (!response.isError) {
