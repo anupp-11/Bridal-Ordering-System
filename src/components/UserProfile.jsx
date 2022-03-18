@@ -173,7 +173,7 @@ const UserProfile = ({ item }) => {
       debugger;
       try {
         if (address) {
-          var response = await updateAddress(inputValues,address.id);
+          var response = await updateAddress(inputValues, address.id);
           debugger;
           if (response.isSuccess) {
             if (!response.isError) {

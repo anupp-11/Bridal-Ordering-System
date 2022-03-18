@@ -6,6 +6,7 @@ export const ADD_PRODUCTS = "/Product/add";
 export const GET_PRODUCT_BY_ID = "/Product/:id";
 export const DELETE_PRODUCT = "/Product/:id";
 
+
 //Address
 export const GET_ADDRESS = "/Address/getuseraddress";
 export const ADD_ADDRESS = "/Address/add";
@@ -71,3 +72,4 @@ export const UPDATE_ADDRESS_URL = `${BASE_URL}${UPDATE_ADDRESS}`;
 
 //Contactus
 export const ADD_CONTACTUS_URL = `${BASE_URL}${ADD_CONTACTUS}`;
+
