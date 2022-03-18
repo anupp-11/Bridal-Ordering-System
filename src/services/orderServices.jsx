@@ -3,7 +3,7 @@ import {
   GET_ORDER_URL,
   GET_ADDRESS_URL,
   ADD_ADDRESS_URL,
-  UPDATE_ADDRESS_URL
+  UPDATE_ADDRESS_URL,
 } from "../constants/api";
 import { getUserInfo } from "./authServices";
 
@@ -14,6 +14,7 @@ export async function placeOrder(address, products) {
   const requestBody = {
     userId: user.id,
     address: {
+      name: address.name,
       phone: address.phone,
       street: address.street,
       city: address.city,
@@ -100,7 +101,7 @@ export async function addAddress(address) {
   }
 }
 
-export async function updateAddress(address,id){
+export async function updateAddress(address, id) {
   const user = await getUserInfo();
   const jwtToken = user.jwtToken;
   const url = UPDATE_ADDRESS_URL + "/" + id;

@@ -16,10 +16,10 @@ function getPrice(item) {
   return total;
 }
 
-function getProducts(products){
+function getProducts(products) {
   //Return the name of products
   let productNames = [];
-  for(let i = 0; i < products.length; i++){
+  for (let i = 0; i < products.length; i++) {
     productNames.push(products[i].product.name);
   }
   return productNames.join(", ");
@@ -37,10 +37,11 @@ const columns = [
   {
     field: "createdAt",
     headerName: "Date",
-    width: 200,
+    width: 110,
     renderCell: (params) => {
-      debugger;
-      return <div>{params.row.createdAt}</div>;
+      return (
+        <div className="productListItem">{getDate(params.row.createdAt)}</div>
+      );
     },
   },
   {
@@ -58,10 +59,24 @@ const columns = [
     width: 800,
     renderCell: (params) => {
       debugger;
-      return <div>Rs. {getPrice(params.row.orderedProducts)} for {getProducts(params.row.orderedProducts)}</div>;
+      return (
+        <div>
+          Rs. {getPrice(params.row.orderedProducts)} for{" "}
+          {getProducts(params.row.orderedProducts)}
+        </div>
+      );
     },
   },
 ];
+
+//function to get date from dateandtime
+function getDate(date) {
+  var date = new Date(date);
+  var day = date.getDate();
+  var month = date.getMonth() + 1;
+  var year = date.getFullYear();
+  return day + "/" + month + "/" + year;
+}
 
 const Container = styled.div`
   flex: 1;
