@@ -5,13 +5,14 @@ import CategoryItem from "./CategoryItem";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getPackages } from "../services/package.service";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const Container = styled.div`
   display: flex;
   padding: 20px;
   justify-content: space-between;
-  ${mobile({ padding: "0px", flexDirection:"column" })}
-
+  ${mobile({ padding: "0px", flexDirection: "column" })}
 `;
 
 const Categories = () => {
@@ -25,21 +26,30 @@ const Categories = () => {
       setIsProcessing(false);
     }
 
-    fetchMyAPI()
-  }, [])
+    fetchMyAPI();
+  }, []);
   if (isProcessing) {
-    return <div>Loading...</div>
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "40vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  } else {
+    return (
+      <Container>
+        {categoriesList.map((item) => (
+          <CategoryItem item={item} key={item.id} />
+        ))}
+      </Container>
+    );
   }
-  else {
-
-  
-  return (
-    <Container>
-      {categoriesList.map((item) => (
-        <CategoryItem item={item} key={item.id} />
-      ))}
-    </Container>
-  );}
 };
 
 export default Categories;

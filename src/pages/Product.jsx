@@ -130,6 +130,7 @@ const Product = (props) => {
       setProduct(product);
       const rev = await getReviewByProductId(id);
       if (rev) {
+        debugger;
         setReviews(rev);
       }
       const user = await getUserInfo();
@@ -144,40 +145,47 @@ const Product = (props) => {
     setReview(event.target.value);
   };
 
-  function ReviewsCard(props){
+  //function to return date from dateandtime
+  function getDate(date) {
+    var date = new Date(date);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    return day + "/" + month + "/" + year;
+  }
+
+  function ReviewsCard(props) {
     const review = props.review;
-    return(
+    return (
       <React.Fragment>
-          <CardContent>
-            <Rating name="read-only" value={review.rating} readOnly />
-            <Typography sx={{ mb: 1.5 }}>
-              {review.message}
-            </Typography>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
+        <CardContent>
+          <Rating name="read-only" value={review.rating} readOnly />
+          <Typography sx={{ mb: 1.5 }}>{review.message}</Typography>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
             >
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {review.userName}
-              </Typography>
-              <Typography
-                sx={{ fontSize: 14 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                2021/02/21
-              </Typography>
-            </div>
-          </CardContent>
-        </React.Fragment>
+              {review.userName}
+            </Typography>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              {getDate(review.createdAt)}
+            </Typography>
+          </div>
+        </CardContent>
+      </React.Fragment>
     );
   }
   const reviewCard = (
@@ -236,7 +244,8 @@ const Product = (props) => {
       rating: value,
     };
     const response = await postReview(producReview);
-    debugger;
+    //reload window
+    window.location.reload();
   }
 
   function showChat() {
@@ -405,11 +414,11 @@ const Product = (props) => {
             </Typography>
             {reviews.map((item, index) => (
               <Card
-              sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
-              variant="outlined"
-            >
-              <ReviewsCard review={item}/>
-            </Card>
+                sx={{ borderRadius: 3, boxShadow: 3, mb: 2 }}
+                variant="outlined"
+              >
+                <ReviewsCard review={item} />
+              </Card>
             ))}
           </Box>
         </ReviewWrapper>

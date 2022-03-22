@@ -122,17 +122,17 @@ const Checkout = () => {
       if (response) {
         setData(response);
         const addresp = await getAddress();
-        if (addresp) {
+        if (addresp.length > 0) {
           debugger;
           setAddress(addresp[0]);
           debugger;
           setInputValue({
-            name: addresp.name,
-            phone: addresp.phone,
-            street: addresp.street,
-            city: addresp.city,
-            state: addresp.state,
-            country: addresp.country,
+            name: addresp[0].name,
+            phone: addresp[0].phone,
+            street: addresp[0].street,
+            city: addresp[0].city,
+            state: addresp[0].state,
+            country: addresp[0].country,
           });
 
           debugger;
@@ -152,6 +152,7 @@ const Checkout = () => {
 
   const route = () => {
     history.push("/");
+    window.location.reload();
   };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -173,7 +174,10 @@ const Checkout = () => {
             debugger;
             setOpen(true);
             setMessage("Order Placed Successfully!");
-            setTimeout(route, 2000);
+            //clear cart after order placed
+            localStorage.removeItem("cart");
+
+            setTimeout(route, 500);
           } else {
             setOpen(true);
             setMessage(response.message);
