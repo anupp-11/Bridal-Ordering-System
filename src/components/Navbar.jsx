@@ -3,8 +3,6 @@ import {
   ShoppingCartOutlined,
   AccountCircleOutlined,
 } from "@material-ui/icons";
-import LogoutIcon from '@mui/icons-material/Logout';
-
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
@@ -12,14 +10,16 @@ import { Link } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {getUserInfo} from "../services/authServices.jsx";
+import { getUserInfo } from "../services/authServices.jsx";
 
 const Container = styled.div`
+  backgroundcolor: "blue";
   height: 60px;
   ${mobile({ height: "50px" })}
 `;
 
 const Wrapper = styled.div`
+  backgroundcolor: "blue";
   padding: 10px 20px;
   display: flex;
   align-items: center;
@@ -78,6 +78,7 @@ const MenuItems = styled.div`
   font-weight: bold;
   cursor: pointer;
   margin-left: 20px;
+  color: "white";
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
@@ -102,15 +103,15 @@ const Navbar = () => {
     }
 
     fetchMyAPI();
-  },[]);
+  }, []);
 
-  function onLogout(){
-    localStorage.removeItem('LogedIn');
+  function onLogout() {
+    localStorage.removeItem("LogedIn");
     window.location.reload();
   }
 
   return (
-    <Container>
+    <div style={{ backgroundColor: "#ec008c", height: 60 }}>
       <Wrapper>
         <Left>
           <div>
@@ -120,19 +121,28 @@ const Navbar = () => {
           </div>
         </Left>
         <Center>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/" style={{ color: "white", textDecoration: "none" }}>
             <MenuItems>HOME</MenuItems>
           </Link>
 
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link
+            to="/products"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <MenuItems>PRODUCT & PACKAGES</MenuItems>
           </Link>
 
-          <Link to="/aboutus" style={{ textDecoration: "none" }}>
+          <Link
+            to="/aboutus"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <MenuItems>ABOUT US</MenuItems>
           </Link>
 
-          <Link to="/contactus" style={{ textDecoration: "none" }}>
+          <Link
+            to="/contactus"
+            style={{ color: "white", textDecoration: "none" }}
+          >
             <MenuItems>CONTACT US</MenuItems>
           </Link>
         </Center>
@@ -152,24 +162,30 @@ const Navbar = () => {
                 flexDirection: "row",
               }}
             >
-              <Link style={{ textDecoration: "none" }}>
+              <Link style={{ color: "white", textDecoration: "none" }}>
                 <MenuItem onClick={onLogout}>Logout</MenuItem>
               </Link>
               <Link to="/profile">
                 <MenuItem>
                   <Badge color="primary">
-                    <AccountCircleOutlined />
+                    <AccountCircleOutlined style={{ color: "white" }} />
                   </Badge>
                 </MenuItem>
               </Link>
             </div>
           ) : (
             <div style={{ display: "flex" }}>
-              <Link to="/register" style={{ textDecoration: "none" }}>
+              <Link
+                to="/register"
+                style={{ color: "white", textDecoration: "none" }}
+              >
                 <MenuItem>REGISTER</MenuItem>
               </Link>
 
-              <Link to="/login" style={{ textDecoration: "none" }}>
+              <Link
+                to="/login"
+                style={{ color: "white", textDecoration: "none" }}
+              >
                 <MenuItem>SIGN IN</MenuItem>
               </Link>
             </div>
@@ -178,13 +194,13 @@ const Navbar = () => {
           <Link to="/cart">
             <MenuItem>
               <Badge badgeContent={quantity} color="primary">
-                <ShoppingCartOutlined />
+                <ShoppingCartOutlined style={{ color: "white" }} />
               </Badge>
             </MenuItem>
           </Link>
         </Right>
       </Wrapper>
-    </Container>
+    </div>
   );
 };
 

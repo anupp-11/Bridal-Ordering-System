@@ -9,10 +9,11 @@ import {
 } from "@material-ui/icons";
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import Logo from '../assets/Logo.png'
+import Logo from "../assets/Logo.png";
 
 const Container = styled.div`
   display: flex;
+  backgroundcolor: "#ec008c";
   ${mobile({ flexDirection: "column" })}
 `;
 
@@ -26,6 +27,7 @@ const Left = styled.div`
 // const Logo = styled.h1``;
 
 const Desc = styled.p`
+  color: white;
   margin: 20px 0px;
 `;
 
@@ -52,6 +54,7 @@ const Center = styled.div`
 `;
 
 const Title = styled.h3`
+  color: white;
   margin-bottom: 30px;
 `;
 
@@ -72,22 +75,22 @@ const Right = styled.div`
   flex: 1;
   padding: 20px;
   ${mobile({ backgroundColor: "#fff8f8" })}
-
 `;
 
 const ContactItem = styled.div`
+  color: white;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
 `;
 
 const Payment = styled.img`
-    width: 50%;
+  width: 50%;
 `;
 
 const Footer = () => {
   return (
-    <Container>
+    <div style={{ backgroundColor: "#ec008c", display: "flex" }}>
       <Left>
         <div>
           <img height="40px" src={Logo} />
@@ -112,25 +115,12 @@ const Footer = () => {
           </SocialIcon>
         </SocialContainer>
       </Left>
-      <Center>
-        {/* <Title>Useful Links</Title>
-        <List>
-          <ListItem>Home</ListItem>
-          <ListItem>Cart</ListItem>
-          <ListItem>Man Fashion</ListItem>
-          <ListItem>Woman Fashion</ListItem>
-          <ListItem>Accessories</ListItem>
-          <ListItem>My Account</ListItem>
-          <ListItem>Order Tracking</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Wishlist</ListItem>
-          <ListItem>Terms</ListItem>
-        </List> */}
-      </Center>
+      <Center></Center>
       <Right>
         <Title>Contact</Title>
         <ContactItem>
-          <Room style={{ marginRight: "10px" }} /> Kumaripati , Lalitpur, Nepal 44700
+          <Room style={{ marginRight: "10px" }} /> Kumaripati , Lalitpur, Nepal
+          44700
         </ContactItem>
         <ContactItem>
           <Phone style={{ marginRight: "10px" }} /> +977 9812345678
@@ -138,9 +128,8 @@ const Footer = () => {
         <ContactItem>
           <MailOutline style={{ marginRight: "10px" }} /> contact@bride.com
         </ContactItem>
-        {/* <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" /> */}
       </Right>
-    </Container>
+    </div>
   );
 };
 
