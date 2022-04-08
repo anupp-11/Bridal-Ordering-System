@@ -113,7 +113,7 @@ const Product = (props) => {
   const [isProcessing, setIsProcessing] = React.useState(true);
   const [product, setProduct] = React.useState({});
   const [index, setIndex] = React.useState(0);
-  const [quantity, setQuantity] = React.useState(1);
+  const [quantity, setQuantity] = React.useState(0);
   const [visible, setVisible] = React.useState(false);
   const dispatch = useDispatch();
   const [review, setReview] = React.useState("");
@@ -219,8 +219,13 @@ const Product = (props) => {
   }
   function handleIncrement(e) {
     e.stopPropagation();
-    var c = quantity + 1;
-    setQuantity(c);
+    //check the quantity of the product before incerment
+    if (product.stock>quantity) {
+      var c = quantity + 1;
+      setQuantity(c);
+    }else{
+      alert("Out of stock");
+    }
   }
 
   function handleDecrement(e) {
@@ -233,7 +238,13 @@ const Product = (props) => {
   }
 
   function handleOnClick() {
-    dispatch(addProduct({ product, quantity }));
+    //check if quantity of product is more than 0
+    if (quantity > 0) {
+      dispatch(addProduct({ product, quantity }));
+    }else
+    {
+      alert("Please choose atleast one quantity.");
+    }
   }
 
   async function onReviewSubmit() {
@@ -290,7 +301,8 @@ const Product = (props) => {
                 <Amount>{quantity}</Amount>
                 <Add onClick={handleIncrement} />
               </AmountContainer>
-              <SButton onClick={handleOnClick}>ADD TO CART</SButton>
+              {product.stock>0?(<SButton onClick={handleOnClick}>Add to cart</SButton>):(<SButton disabled>Out of stock</SButton>)}
+              {/* <SButton onClick={handleOnClick}>ADD TO CART</SButton> */}
             </AddContainer>
             <Desc>Stock: {product.stock}</Desc>
 

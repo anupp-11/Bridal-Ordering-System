@@ -4,8 +4,9 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { addProduct, clearCart } from "../redux/cartRedux";
 
 const Container = styled.div``;
 
@@ -157,8 +158,39 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
+
+  const dispatch = useDispatch();
+
   const cart = useSelector((state) => state.cart);
   console.log(cart);
+
+  //onCHeckout funtion to redirect to checkout page if cart is not empty && user is logged in
+  const onCheckout = () => {
+    //get user from localStorage
+    const user = JSON.parse(localStorage.getItem("LogedIn"));
+    
+    if (cart.products.length > 0) {
+      if (user) {
+      window.location.href = "/checkout";
+      }
+      else {
+        alert("Please login to checkout");
+      }
+    } else {
+      alert("Cart is empty");
+    }
+  }
+ 
+  //clearCart function to clear the cart
+  const onClearCart = () => {
+    dispatch(clearCart());
+  }
+  //removeProduct function to remove the product from the cart
+  const removeProduct = (id) => {
+    
+  }
+
+
   return (
     <Container>
       <Navbar />
@@ -168,6 +200,7 @@ const Cart = () => {
         <Link to="/products" style={{ textDecoration: 'none' }}>
           <TopButton >CONTINUE SHOPPING</TopButton>
         </Link>
+          <TopButton onClick={onClearCart} >Clear Cart</TopButton>
           <TopTexts>
             <TopText>Shopping Bag({cart.quantity})</TopText>
             {/* <TopText>Your Wishlist (0)</TopText> */}
@@ -205,6 +238,8 @@ const Cart = () => {
             </Product>
             ))}
             <Hr />
+
+            {cart.products.length===0?(<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100%'}}><Title>Cart is empty.</Title></div>):(null)}
             
           </Info>
           <Summary>
@@ -225,9 +260,11 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>{cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <Link to="/checkout" style={{ textDecoration: 'none' }}>
-              <Button>CHECKOUT NOW</Button>
-            </Link>
+
+
+
+              <Button onClick={onCheckout}>CHECKOUT NOW</Button>
+            {/* </Link> */}
           </Summary>
         </Bottom>
       </Wrapper>
