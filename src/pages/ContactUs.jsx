@@ -124,25 +124,31 @@ const Contactus = () => {
   }
 
   const contactUs = async () => {
-    try {
-      const response = await postContactUs(inputValues);
-      debugger;
-      if (response.isSuccess) {
-        if (!response.isError) {
-          debugger;
-          setOpen(true);
-          setTimeout(route, 2000)
-        } else {
-          setOpen(true);
-          setMessage(response.message)
-        }
-      }
-      debugger;
-    } catch (error) {
-      debugger;
-      setOpen(true);
-      setMessage('Error!! Try Later')
+    //check if all fields are filled
+    if (inputValues.name === "" || inputValues.email === "" || inputValues.phone === "" || inputValues.message === "") {
+      alert("Please fill all the fields")
     }
+      else{
+        try {
+        const response = await postContactUs(inputValues);
+        debugger;
+        if (response.isSuccess) {
+          if (!response.isError) {
+            debugger;
+            setOpen(true);
+            setTimeout(route, 2000)
+          } else {
+            setOpen(true);
+            setMessage(response.message)
+          }
+        }
+        debugger;
+      } catch (error) {
+        debugger;
+        setOpen(true);
+        setMessage('Error!! Try Later')
+      }}
+    
   }
 
   return (
