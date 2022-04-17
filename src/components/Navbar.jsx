@@ -53,7 +53,7 @@ const Input = styled.input`
 `;
 
 const Center = styled.div`
-  flex: 1;
+  
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -77,7 +77,7 @@ const MenuItems = styled.div`
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  margin-left: 20px;
+  margin-left: 10px;
   color: "white";
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;

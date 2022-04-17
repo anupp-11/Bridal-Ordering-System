@@ -140,7 +140,7 @@ const Login = () => {
           localStorage.setItem('LogedIn', JSON.stringify(responseData.result));
           setOpen(true);
           setMessage(response.message);
-          setTimeout(route,2000)
+          setTimeout(route,200)
         } else {
           setValidation(responseData.message)
         }
