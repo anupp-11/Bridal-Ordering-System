@@ -388,9 +388,6 @@ const Checkout = () => {
             <Danger>{Error}</Danger>
             <Mystyle>
             <Button type="submit" onClick={paymentButtonClicked}>Pay with Khalti</Button>
-              <Button type="submit" onClick={checkoutService}>
-                CHECKOUT
-              </Button>
             </Mystyle>
           </Form>
         </Wrapper>
