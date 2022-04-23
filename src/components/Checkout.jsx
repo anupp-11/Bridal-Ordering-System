@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
-import { Link } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import { getAddress } from "../services/orderServices.jsx";
 import { placeOrder } from "../services/orderServices";
@@ -12,6 +11,10 @@ import MuiAlert from "@mui/material/Alert";
 import { Snackbar } from "@mui/material";
 import SimpleReactValidator from "simple-react-validator";
 import { getUserInfo } from "../services/authServices.jsx";
+import KhaltiCheckout from "khalti-checkout-web";
+import { verifyPayment } from "../services/khaltiService";
+
+
 
 const Container = styled.div`
   width: 100vw;
@@ -89,9 +92,53 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+
+
 const Checkout = () => {
   const [data, setData] = useState("");
   const [address, setAddress] = useState("");
+  const [severity, setSeverity ] = useState("");
+
+  let config = {
+    "publicKey": "test_public_key_e2dc38783b814fc69f67f5ee6878816c",
+    "productIdentity": "1234567890",
+    "productName": "Drogon",
+    "productUrl": "http://gameofthrones.com/buy/Dragons",
+    "eventHandler": {
+        onSuccess (payload) {
+
+          verification(payload);
+            
+            console.log(payload);
+        },
+        // onError handler is optional
+        onError (error) {
+            // handle errors
+            console.log(error);
+        },
+        onClose () {
+            console.log('widget is closing');
+        }
+    },
+    "paymentPreference": ["KHALTI"],
+  };
+
+  const verification = async (payload) => {
+    // hit merchant api for initiating verfication
+    const response = await verifyPayment(payload);
+    debugger;
+    if (response) {
+      checkoutService();
+    } else {
+        // redirect to failure page
+        setOpen(true);
+        setMessage("Payment Failed");
+        setSeverity("error");
+    }
+
+  }
+  
+  let checkout = new KhaltiCheckout(config);
 
   const products = useSelector((state) => state.cart);
   console.log("Products:", products);
@@ -163,9 +210,6 @@ const Checkout = () => {
   };
 
   const checkoutService = async () => {
-    debugger;
-    if (simpleValidator.current.allValid()) {
-      debugger;
       try {
         const response = await placeOrder(inputValues, products.products);
         debugger;
@@ -174,6 +218,7 @@ const Checkout = () => {
             debugger;
             setOpen(true);
             setMessage("Order Placed Successfully!");
+            setSeverity("success");
             //clear cart after order placed
             localStorage.removeItem("cart");
 
@@ -188,11 +233,32 @@ const Checkout = () => {
         debugger;
         setOpen(true);
         setMessage("Error!! Try Later");
+        setSeverity("error");
       }
+  };
+
+  
+  
+  
+  
+  // let btn = document.getElementById("payment-button");
+  // btn.onclick = function () {
+  //     // minimum transaction amount must be 10, i.e 1000 in paisa.
+  //     checkout.show({amount: 1000});
+  // }
+
+  const paymentButtonClicked = () => {
+    debugger;
+    if (simpleValidator.current.allValid()) {
+      checkout.show({amount: 1000});
     } else {
       setError("Form Incomplete");
     }
-  };
+  }
+
+
+
+
   if (isProcessing) {
     return <div>Loading...</div>;
   } else {
@@ -207,7 +273,7 @@ const Checkout = () => {
         >
           <Alert
             onClose={handleClose}
-            severity="success"
+            severity={severity}
             sx={{ width: "100%" }}
           >
             {message}
@@ -321,12 +387,14 @@ const Checkout = () => {
             </div>
             <Danger>{Error}</Danger>
             <Mystyle>
+            <Button type="submit" onClick={paymentButtonClicked}>Pay with Khalti</Button>
               <Button type="submit" onClick={checkoutService}>
                 CHECKOUT
               </Button>
             </Mystyle>
           </Form>
         </Wrapper>
+          
         <Footer />
       </Container>
     );
