@@ -36,6 +36,9 @@ export const GET_CAROUSEL = "/Carousel/get";
 export const ADD_ORDER = "/Order/add"
 export const GET_ORDER = "/Order/userorders";
 
+//Payment Verification
+export const PAYMENT_VERIFICATION = "/PaymentVerification";
+
 
 //Products
 export const GET_PRODUCTS_URL = `${BASE_URL}${GET_PRODUCTS}`;
@@ -72,4 +75,7 @@ export const UPDATE_ADDRESS_URL = `${BASE_URL}${UPDATE_ADDRESS}`;
 
 //Contactus
 export const ADD_CONTACTUS_URL = `${BASE_URL}${ADD_CONTACTUS}`;
+
+//Payment Verification
+export const PAYMENT_VERIFICATION_URL = `${BASE_URL}${PAYMENT_VERIFICATION}`;
 

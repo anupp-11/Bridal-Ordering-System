@@ -1,29 +1,32 @@
-const axios = require('axios');
-
-
+import {PAYMENT_VERIFICATION_URL} from '../constants/api';
 
 export async function  verifyPayment(payload) {
-    let data = {
-        "token" : payload.token,
-        "amount": payload.amount
-    };
-    
-    let config = {
-        headers: {'Authorization': 'Key test_secret_key_5ec0ebb9f15047479ef1bcc502c35bd2'}
-    };
+    let payloadData = {
+        token : payload.token,
+        amount: "1000"
+    }
+
+    let reqbody = JSON.stringify(payloadData);
     debugger;
-    axios.post("https://khalti.com/api/v2/payment/verify/", data, config)
-    .then(response => {
-        
-        console.log(response.data);
-        debugger;
-        return true;
-    })
-    .catch(error => {
-        
-        console.log(error);
-        debugger;
+
+    try {
+        const response = await fetch(PAYMENT_VERIFICATION_URL, {
+          method: "post",
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+          body: reqbody,
+        });
+        const data = await response.json();
+        if(data.successResponse){
+            console.log("Payment Successful",data.successResponse);
+            return true;
+        }else{
+            return false;
+        }
+      } catch (error) {
+        console.log(error.message);
         return false;
-    });
+      }
 }
 
